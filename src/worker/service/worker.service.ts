@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Worker } from '@prisma/client';
+import { Church, Worker, WorkerAddress } from '@prisma/client';
 import { PrismaService } from 'src/prisma/service/prisma.service';
 import { CreateWorkerAddressDTO } from '../dto/CreateWorkerAddressDTO';
 import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
 import { UpdateWorkerAddressDTO } from '../dto/UpdateWorkerAddressDTO';
+import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
+
 
 @Injectable()
 export class WorkerService {
@@ -89,12 +91,10 @@ export class WorkerService {
           return worker
         }
 
-    async findByCPF(cpf: string): Promise<Worker[]> {
-          const worker = await this.prisma.worker.findMany({
+    async findByCPF(cpf: string): Promise<Worker> {
+          const worker = await this.prisma.worker.findUnique({
             where: {
-              cpf: {
-                contains: cpf
-              }
+              cpf
             }
           })
         
@@ -111,6 +111,9 @@ export class WorkerService {
         return worker
     }
 
+
+    /** WORKER ADDRESS */
+
     async updateAddress(id: string, address: UpdateWorkerAddressDTO): Promise<void>{
       await this.prisma.workerAddress.update({
         where: {
@@ -123,5 +126,49 @@ export class WorkerService {
       
     }
 
+    async findAddress(workerId: string): Promise<WorkerAddress>{
+      const address = this.prisma.workerAddress.findUnique({
+        where: {
+          workerId
+        }
+      })
+
+      return address
+    }
+
+    async deleteAddress(id: string): Promise<void>{
+      await this.prisma.workerAddress.delete({
+        where: {
+          id
+        }
+      })
+    }
+
+    async updateWorkerChurch(id: string, church: UpdateWorkerChurchDTO): Promise<void>{
+
+      await this.prisma.church.update({
+        where: {
+          code: church.code
+        },
+        data: {
+          workers: {
+            connect: {
+              id
+            }
+          }
+        }
+      })
+    }
+
+    async findChurch(churchId: string): Promise<Church>{
+      const workerChurch = this.prisma.church.findUnique({
+        where: {
+          id: churchId
+        }
+      })
+
+      return workerChurch
+    }
     
+
 }
