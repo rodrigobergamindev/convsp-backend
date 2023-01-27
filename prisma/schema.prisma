@@ -10,19 +10,90 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
-model User {
+model Worker {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  email String  @unique
-  name  String?
-  posts Post[]
+  code String @unique
+  photo String?
+  status Status @default(ATIVO)
+  name  String
+  role Role @default(UNDEFINED)
+  rg String @unique
+  cpf String @unique
+  birth DateTime
+  consagration DateTime?
+  phoneNumber String?
+  email String?
+  documentsUrl String[]
+  address WorkerAddress?
+  church Church? @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  churchId String @unique @db.ObjectId 
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+ 
 }
 
-model Post {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  String @db.ObjectId
+model Church {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  code String @unique
+  photo String?
+  status Status? @default(ATIVO)
+  name  String?
+  role Role? @default(UNDEFINED)
+  rg String?
+  cpf String?
+  birth DateTime?
+  consagration DateTime?
+  address ChurchAddress?
+  phoneNumber String?
+  email String?
+  documentsUrl String[]
+
+  workers Worker[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+  
+}
+
+model WorkerAddress {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  type String
+  place String
+  number String
+  complement String?
+  district String
+  city String
+  state String
+  zip_code String
+  worker   Worker   @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  workerId String @unique @db.ObjectId 
+}
+
+model ChurchAddress {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  type String
+  place String
+  number String
+  complement String?
+  district String
+  city String
+  state String
+  zip_code String
+  church   Church   @relation(fields: [churchId], references: [id])
+  churchId String @unique @db.ObjectId 
+}
+
+enum Status {
+  ATIVO
+  DESATIVADO
+  INATIVO
+  DESLIGADO
+}
+
+enum Role {
+  UNDEFINED
+  CANDIDATO
+  PRESBITERO
+  EVANGELISTA
+  PASTOR
 }
