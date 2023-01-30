@@ -3,13 +3,10 @@ import {
     Prisma, Role, Status,
   } from '@prisma/client';
 import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsUrl } from 'class-validator'
-import { IsArray } from 'class-validator/types/decorator/decorators';
+
 
 
 export class CreateWorkerDTO implements Prisma.WorkerCreateInput {
-
-  @IsNotEmpty()
-  readonly id: string;
 
   @IsNotEmpty()
   readonly code: string;
@@ -18,7 +15,7 @@ export class CreateWorkerDTO implements Prisma.WorkerCreateInput {
   @IsOptional()
   readonly photo?: string;
 
-  @IsNotEmpty()
+  @IsOptional()
   readonly status: Status;
 
   @IsNotEmpty()
@@ -48,7 +45,6 @@ export class CreateWorkerDTO implements Prisma.WorkerCreateInput {
   readonly email: string;
 
   @IsOptional()
-  @IsArray()
   readonly documentsUrl: string[];
   
  

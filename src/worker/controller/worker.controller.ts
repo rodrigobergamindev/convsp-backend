@@ -49,7 +49,8 @@ export class WorkerController {
                 return worker
         }
     
-
+    
+    /**POST */
         
     @Post()
     @UsePipes(ValidationPipe, WorkerValidationAlreadyExistPipe)
@@ -58,6 +59,9 @@ export class WorkerController {
                 await this.workerService.create(worker)
         }
     
+
+
+        
     @Put(':id')
     @UsePipes(ValidationPipe)
     async update(
