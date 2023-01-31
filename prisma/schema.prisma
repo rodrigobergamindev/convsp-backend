@@ -23,15 +23,26 @@ model Worker {
   consagration DateTime?
   phoneNumber String?
   email String?
-  documentsUrl String[]
+  document Document[]
   address WorkerAddress?
   church Church? @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   churchId String? @unique @db.ObjectId 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
-
  
 }
+
+
+model Document {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  key String @unique
+  url String
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  workerId String @unique @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
 
 model Church {
   id    String @id @default(auto()) @map("_id") @db.ObjectId

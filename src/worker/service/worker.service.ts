@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Church, Worker, WorkerAddress } from '@prisma/client';
+import { Church, Document, Worker, WorkerAddress } from '@prisma/client';
 import { PrismaService } from 'src/prisma/service/prisma.service';
 import { CreateWorkerAddressDTO } from '../dto/CreateWorkerAddressDTO';
 import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
@@ -28,35 +28,54 @@ export class WorkerService {
 
     async fileUpload(workerId: string, files: Express.Multer.File[]): Promise<any>{
 
-       files.map(async (file) => {
-        const s3 = new S3();
+      const filesToUpload = await Promise.all(files.map(async (file) => {
+        const s3 = new S3()
 
         if(file.mimetype.includes('pdf')){
-  
+          
           const uploadResult = await s3.upload({
             Bucket: this.configService.get('AWS_BUCKET_NAME'), 
             Body: file.buffer,
             Key: `${uuid()}-${file.originalname}`
           }).promise()
-  
-  
-          if(uploadResult.Location){
-            await this.prisma.worker.update({
-              where: {
-                id: workerId
-              },
+          
+          if(uploadResult){
+            await this.prisma.document.create({
               data: {
-                documentsUrl: {
-                  push: uploadResult.Location
+                key: uploadResult.Key,
+                url: uploadResult.Location,
+                worker: {
+                  connect: {
+                    id: workerId
+                  }
                 }
               }
             })
           }
          }
-       })
+
+       }))
+
+    
+      
+
+     
   
     }
 
+    async deleteFiles(workerId: string, files: Document[]) {
+
+        files.map(async (file) => {
+          const s3 = new S3()
+
+          const deleteResult = await s3.deleteObject({
+            Bucket:this.configService.get('AWS_BUCKET_NAME'),
+            Key: file.key
+          }) 
+          
+        })
+    }
+ 
 
 
     async createWorkerAddress(id: string, address: CreateWorkerAddressDTO): Promise<void>{
@@ -87,7 +106,11 @@ export class WorkerService {
       } 
 
     async findAll(): Promise<Worker[]>{
-        const workers = await this.prisma.worker.findMany()
+        const workers = await this.prisma.worker.findMany({
+          include: {
+            document: true
+          }
+        })
       
         return workers
         }

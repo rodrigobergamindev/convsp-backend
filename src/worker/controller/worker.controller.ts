@@ -2,7 +2,7 @@ import { Controller, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Body, Delete, Get, Param, Post, Put, Req, UploadedFiles, UsePipes } from '@nestjs/common/decorators';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { ValidationPipe } from '@nestjs/common/pipes';
-import { Worker } from '@prisma/client';
+import { Document, Worker } from '@prisma/client';
 import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
 import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
@@ -64,6 +64,13 @@ export class WorkerController {
         @Param('id', WorkerValidationExistPipe) id: string,
         @UploadedFiles() files: Express.Multer.File[]): Promise<any> {
             await this.workerService.fileUpload(id, files);
+
+    }
+
+    @Delete(':id/deleteFiles')
+    async deleteFile(
+        @Param('id', WorkerValidationExistPipe) id: string, @Body() files: String[]): Promise<any> {
+            await this.workerService.deleteFiles(id, files)
 
     }
          
