@@ -1,9 +1,8 @@
 {
 	"info": {
-		"_postman_id": "76edd503-5f3f-41f3-862f-61d439b7d70e",
+		"_postman_id": "1e9fb441-66c9-4beb-8cd0-71bb24c2f6e3",
 		"name": "convsp-backend",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "7336078"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
@@ -16,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"code\": \"1234\",\r\n    \"name\":\"Antônio Vieira\",\r\n    \"role\":\"PRESBITERO\",\r\n    \"rg\":\"39383839-2\",\r\n    \"cpf\":\"392.232.222-01\",\r\n    \"birth\": \"2023-01-30T23:10:50Z\",\r\n    \"consagration\":\"2023-01-30T23:10:50Z\",\r\n    \"phoneNumber\":\"11959943034\",\r\n    \"email\":\"rb.bergamin@gmail.com\",\r\n    \"documentsUrl\": [\r\n        \"https://aws.s3.storage/1234/photo\",\r\n        \"https://aws.s3.storage/1234/photo\",\r\n        \"https://aws.s3.storage/1234/photo\",\r\n        \"https://aws.s3.storage/1234/photo\",\r\n        \"https://aws.s3.storage/1234/photo\"\r\n    ],\r\n    \"photo\":\"https://aws.s3.storage/1234/photo\"\r\n}",
+							"raw": "{\r\n    \"code\": \"1234\",\r\n    \"name\":\"Antônio Vieira\",\r\n    \"role\":\"PRESBITERO\",\r\n    \"rg\":\"39383839-2\",\r\n    \"cpf\":\"392.232.222-01\",\r\n    \"birth\": \"2023-01-30T23:10:50Z\",\r\n    \"consagration\":\"2023-01-30T23:10:50Z\",\r\n    \"phoneNumber\":\"11959943034\",\r\n    \"email\":\"rb.bergamin@gmail.com\",\r\n    \"photo\":\"https://aws.s3.storage/1234/photo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -109,6 +108,41 @@
 								"workers",
 								"cpf",
 								"392.232.222-01"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "filesUpload",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "files",
+									"type": "file",
+									"src": [
+										"/C:/Users/convs/Downloads/1675175824044.pdf",
+										"/C:/Users/convs/Downloads/1675175752526.pdf",
+										"/C:/Users/convs/Downloads/1672690126473.pdf",
+										"/C:/Users/convs/Downloads/passo-1.png"
+									]
+								}
+							]
+						},
+						"url": {
+							"raw": "{{host}}/api/workers/63d96242300dd8d9e3ab17c3/fileUpload",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"63d96242300dd8d9e3ab17c3",
+								"fileUpload"
 							]
 						}
 					},
