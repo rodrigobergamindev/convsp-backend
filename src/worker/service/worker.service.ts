@@ -24,6 +24,10 @@ export class WorkerService {
          
        }
 
+    async fileUpload(file: Buffer){
+      
+    }
+
     async createWorkerAddress(id: string, address: CreateWorkerAddressDTO): Promise<void>{
         await this.prisma.workerAddress.create({
           data: {

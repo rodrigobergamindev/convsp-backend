@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Body, Delete, Get, Param, Post, Put, Req, UsePipes } from '@nestjs/common/decorators';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { ValidationPipe } from '@nestjs/common/pipes';
@@ -8,7 +8,9 @@ import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../pipes/WorkerValidationPipe';
 import { WorkerService } from '../service/worker.service';
-
+import { FileInterceptor } from "@nestjs/platform-express";
+import { FileUploadService } from "src/services/fileupload.service";
+import { Express } from 'express';
 @Controller('api/workers')
 export class WorkerController {
 
@@ -53,6 +55,14 @@ export class WorkerController {
     
     
     /**POST */
+
+
+    @Post('fileUpload')
+    @UseInterceptors(FileInterceptor('file'))
+    async uploadFile(@UploadedFile() file: Express.Multer.File): Promise {
+        const uploadedFile = await this.fileUploadService.uploadFile(file.buffer, file.originalname);
+        console.log('File has been uploaded,', uploadedFile.fileName);        
+    }
         
     @Post()
     @UsePipes(ValidationPipe, WorkerValidationAlreadyExistPipe)
