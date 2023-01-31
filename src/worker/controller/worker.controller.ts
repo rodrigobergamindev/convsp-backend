@@ -9,8 +9,9 @@ import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../pipes/WorkerValidationPipe';
 import { WorkerService } from '../service/worker.service';
 import { FileInterceptor } from "@nestjs/platform-express";
-import { FileUploadService } from "src/services/fileupload.service";
 import { Express } from 'express';
+
+
 @Controller('api/workers')
 export class WorkerController {
 
@@ -57,13 +58,15 @@ export class WorkerController {
     /**POST */
 
 
-    @Post('fileUpload')
+    @Post(':id/fileUpload')
     @UseInterceptors(FileInterceptor('file'))
-    async uploadFile(@UploadedFile() file: Express.Multer.File): Promise {
-        const uploadedFile = await this.fileUploadService.uploadFile(file.buffer, file.originalname);
-        console.log('File has been uploaded,', uploadedFile.fileName);        
+    async uploadFile(
+        @Param('id', WorkerValidationExistPipe) id: string,
+        @UploadedFile() file: Express.Multer.File): Promise<any> {
+        const uploadedFile = await this.workerService.fileUpload(id, file.buffer, file.originalname);
+          
     }
-        
+         
     @Post()
     @UsePipes(ValidationPipe, WorkerValidationAlreadyExistPipe)
         async create(

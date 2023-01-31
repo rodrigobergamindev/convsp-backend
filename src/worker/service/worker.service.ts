@@ -6,12 +6,14 @@ import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
 import { UpdateWorkerAddressDTO } from '../dto/UpdateWorkerAddressDTO';
 import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
-
+import { ConfigService } from "@nestjs/config";
+import { S3 } from "aws-sdk";
+import {v4 as uuid} from 'uuid'
 
 @Injectable()
 export class WorkerService {
 
-    constructor(private readonly prisma: PrismaService) {}
+    constructor(private readonly prisma: PrismaService, private readonly configService: ConfigService) {}
 
 
     async create(data: CreateWorkerDTO) {
@@ -24,8 +26,27 @@ export class WorkerService {
          
        }
 
-    async fileUpload(file: Buffer){
-      
+    async fileUpload(workerId: string, dataBuffer: Buffer, fileName: string): Promise<any>{
+        const s3 = new S3();
+
+        const uploadResult = await s3.upload({
+          Bucket: this.configService.get('AWS_BUCKET_NAME'), 
+          Body: dataBuffer,
+          Key: `${uuid()}-${fileName}`
+        }).promise()
+
+        const newArrayDocuments = [uploadResult.Location]
+
+        if(uploadResult.Location){
+          await this.prisma.worker.update({
+            where: {
+              id: workerId
+            },
+            data: {
+              documentsUrl: newArrayDocuments
+            }
+          })
+        }
     }
 
     async createWorkerAddress(id: string, address: CreateWorkerAddressDTO): Promise<void>{

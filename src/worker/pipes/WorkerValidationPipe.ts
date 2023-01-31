@@ -34,9 +34,9 @@ export class WorkerValidationAlreadyExistPipe implements PipeTransform {
             throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
         }
        
-        //const workerExist = await this.workerService.findByCode(value.code)
+        const workerExist = await this.workerService.findByCode(value.code)
 
-        //if(workerExist) throw new BadRequestException({statusCode: 404, message: "Obreiro já existe"})
+        if(workerExist) throw new BadRequestException({statusCode: 404, message: "Obreiro já existe"})
             
         return value
 
