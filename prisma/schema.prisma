@@ -26,7 +26,7 @@ model Worker {
   documentsUrl String[]
   address WorkerAddress?
   church Church? @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  churchId String @unique @db.ObjectId 
+  churchId String? @unique @db.ObjectId 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
 

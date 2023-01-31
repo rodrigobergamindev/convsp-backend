@@ -39,6 +39,7 @@ export class WorkerController {
         async getWorkerByCpf(
             @Param('cpf') cpf : string): Promise<Worker> {
                 const worker = await this.workerService.findByCPF(cpf)
+                if(!worker) throw new NotFoundException({statusCode: 404, message: "Worker Not Found"})
                 return worker
         }
 
@@ -46,6 +47,7 @@ export class WorkerController {
         async getWorkerByCode(
             @Param('code') code : string): Promise<Worker> {
                 const worker = await this.workerService.findByCode(code)
+                if(!worker) throw new NotFoundException({statusCode: 404, message: "Worker Not Found"})
                 return worker
         }
     

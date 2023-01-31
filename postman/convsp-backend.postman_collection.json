@@ -1,0 +1,120 @@
+{
+	"info": {
+		"_postman_id": "76edd503-5f3f-41f3-862f-61d439b7d70e",
+		"name": "convsp-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7336078"
+	},
+	"item": [
+		{
+			"name": "worker",
+			"item": [
+				{
+					"name": "{{host}}/api/workers",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"1234\",\r\n    \"name\":\"Antônio Vieira\",\r\n    \"role\":\"PRESBITERO\",\r\n    \"rg\":\"39383839-2\",\r\n    \"cpf\":\"392.232.222-01\",\r\n    \"birth\": \"2023-01-30T23:10:50Z\",\r\n    \"consagration\":\"2023-01-30T23:10:50Z\",\r\n    \"phoneNumber\":\"11959943034\",\r\n    \"email\":\"rb.bergamin@gmail.com\",\r\n    \"documentsUrl\": [\r\n        \"https://aws.s3.storage/1234/photo\",\r\n        \"https://aws.s3.storage/1234/photo\",\r\n        \"https://aws.s3.storage/1234/photo\",\r\n        \"https://aws.s3.storage/1234/photo\",\r\n        \"https://aws.s3.storage/1234/photo\"\r\n    ],\r\n    \"photo\":\"https://aws.s3.storage/1234/photo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/workers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/workers",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/workers/id/63d85e2152c10acffa22c3f6",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"id",
+								"63d85e2152c10acffa22c3f6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByCode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/workers/code/1234",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"code",
+								"1234"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByCPF",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/workers/cpf/392.232.222-01",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"cpf",
+								"392.232.222-01"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
