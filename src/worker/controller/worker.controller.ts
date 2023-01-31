@@ -1,5 +1,5 @@
 import { Controller, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { Body, Delete, Get, Param, Post, Put, Req, UsePipes } from '@nestjs/common/decorators';
+import { Body, Delete, Get, Param, Post, Put, Req, UploadedFiles, UsePipes } from '@nestjs/common/decorators';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { Worker } from '@prisma/client';
@@ -8,7 +8,7 @@ import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../pipes/WorkerValidationPipe';
 import { WorkerService } from '../service/worker.service';
-import { FileInterceptor } from "@nestjs/platform-express";
+import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import { Express } from 'express';
 
 
@@ -56,15 +56,15 @@ export class WorkerController {
     
     
     /**POST */
-
+ 
 
     @Post(':id/fileUpload')
-    @UseInterceptors(FileInterceptor('file'))
+    @UseInterceptors(FilesInterceptor('files'))
     async uploadFile(
         @Param('id', WorkerValidationExistPipe) id: string,
-        @UploadedFile() file: Express.Multer.File): Promise<any> {
-        const uploadedFile = await this.workerService.fileUpload(id, file.buffer, file.originalname);
-          
+        @UploadedFiles() files: Express.Multer.File[]): Promise<any> {
+            await this.workerService.fileUpload(id, files);
+
     }
          
     @Post()

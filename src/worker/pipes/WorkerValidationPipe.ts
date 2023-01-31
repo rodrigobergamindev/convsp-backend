@@ -12,8 +12,7 @@ export class WorkerValidationExistPipe implements PipeTransform {
         if(!value){
             throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
         }
-        
-        
+       
         const workerExist = await this.workerService.findById(value)
         if(!workerExist) throw new NotFoundException({statusCode: 400, message: "Obreiro não encontrado"})
         
@@ -81,3 +80,5 @@ export class WorkerValidationChurchExist implements PipeTransform {
 
     }
 }
+
+

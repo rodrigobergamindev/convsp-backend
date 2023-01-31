@@ -26,28 +26,38 @@ export class WorkerService {
          
        }
 
-    async fileUpload(workerId: string, dataBuffer: Buffer, fileName: string): Promise<any>{
+    async fileUpload(workerId: string, files: Express.Multer.File[]): Promise<any>{
+
+       files.map(async (file) => {
         const s3 = new S3();
 
-        const uploadResult = await s3.upload({
-          Bucket: this.configService.get('AWS_BUCKET_NAME'), 
-          Body: dataBuffer,
-          Key: `${uuid()}-${fileName}`
-        }).promise()
-
-        const newArrayDocuments = [uploadResult.Location]
-
-        if(uploadResult.Location){
-          await this.prisma.worker.update({
-            where: {
-              id: workerId
-            },
-            data: {
-              documentsUrl: newArrayDocuments
-            }
-          })
-        }
+        if(file.mimetype.includes('pdf')){
+  
+          const uploadResult = await s3.upload({
+            Bucket: this.configService.get('AWS_BUCKET_NAME'), 
+            Body: file.buffer,
+            Key: `${uuid()}-${file.originalname}`
+          }).promise()
+  
+  
+          if(uploadResult.Location){
+            await this.prisma.worker.update({
+              where: {
+                id: workerId
+              },
+              data: {
+                documentsUrl: {
+                  push: uploadResult.Location
+                }
+              }
+            })
+          }
+         }
+       })
+  
     }
+
+
 
     async createWorkerAddress(id: string, address: CreateWorkerAddressDTO): Promise<void>{
         await this.prisma.workerAddress.create({
