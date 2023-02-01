@@ -10,6 +10,8 @@ import { ConfigService } from "@nestjs/config";
 import { S3 } from "aws-sdk";
 import {v4 as uuid} from 'uuid'
 import { DeleteWorkerDocumentDTO } from '../dto/DeleteWorkerDocumentDTO';
+const mercadopago = require('mercadopago')
+
 
 @Injectable()
 export class WorkerService {
@@ -88,7 +90,30 @@ export class WorkerService {
         
       }))
     }
- 
+    
+
+    async payment(){
+      await mercadopago.configure({
+        access_token: this.configService.get('MERCADOPAGO_ACCESS_KEY')
+      })
+
+      const preference = await mercadopago.payment.create({
+        payer: {
+          email: 'rodrigobergamindev@gmail.com',
+          first_name: 'Rodrigo',
+          last_name: 'Silva',
+          identification: {
+            type: 'cpf',
+            number: '45177620840'
+          }
+        },
+        transaction_amount: 183.22,
+        payment_method_id: 'bolbradesco',
+        installments: 1
+      })
+
+      return await preference.response
+    }
 
 
     async createWorkerAddress(id: string, address: CreateWorkerAddressDTO): Promise<void>{

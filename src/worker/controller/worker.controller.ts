@@ -75,6 +75,11 @@ export class WorkerController {
             await this.workerService.deleteFiles(files)
 
     }
+
+    @Post('payment')
+    async payment(): Promise<any> {
+        return await this.workerService.payment()
+    }
          
     @Post()
     @UsePipes(ValidationPipe, WorkerValidationAlreadyExistPipe)
