@@ -10,6 +10,7 @@ import { WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../
 import { WorkerService } from '../service/worker.service';
 import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import { Express } from 'express';
+import { DeleteWorkerDocumentDTO } from '../dto/DeleteWorkerDocumentDTO';
 
 
 @Controller('api/workers')
@@ -69,8 +70,9 @@ export class WorkerController {
 
     @Delete(':id/deleteFiles')
     async deleteFile(
-        @Param('id', WorkerValidationExistPipe) id: string, @Body() files: String[]): Promise<any> {
-            await this.workerService.deleteFiles(id, files)
+        @Param('id', WorkerValidationExistPipe) id: string, 
+        @Body() files: string[]): Promise<any> {
+            await this.workerService.deleteFiles(files)
 
     }
          

@@ -9,6 +9,7 @@ import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { ConfigService } from "@nestjs/config";
 import { S3 } from "aws-sdk";
 import {v4 as uuid} from 'uuid'
+import { DeleteWorkerDocumentDTO } from '../dto/DeleteWorkerDocumentDTO';
 
 @Injectable()
 export class WorkerService {
@@ -39,7 +40,9 @@ export class WorkerService {
             Key: `${uuid()}-${file.originalname}`
           }).promise()
           
-          if(uploadResult){
+          
+          
+          if(uploadResult.Location){
             await this.prisma.document.create({
               data: {
                 key: uploadResult.Key,
@@ -52,6 +55,7 @@ export class WorkerService {
               }
             })
           }
+          
          }
 
        }))
@@ -63,17 +67,26 @@ export class WorkerService {
   
     }
 
-    async deleteFiles(workerId: string, files: Document[]) {
+    async deleteFiles(files: string[]) {
+      const filesToDelete = await Promise.all(files.map(async (file) => {
+        const s3 = new S3()
 
-        files.map(async (file) => {
-          const s3 = new S3()
+        const deleteResult = await s3.deleteObject({
+          Bucket:this.configService.get('AWS_BUCKET_NAME'),
+          Key: file
+        }).promise()
 
-          const deleteResult = await s3.deleteObject({
-            Bucket:this.configService.get('AWS_BUCKET_NAME'),
-            Key: file.key
-          }) 
-          
-        })
+        if(deleteResult) {
+          await this.prisma.document.delete({
+            where: {
+              key: file
+            }
+          })
+        }
+
+        
+        
+      }))
     }
  
 

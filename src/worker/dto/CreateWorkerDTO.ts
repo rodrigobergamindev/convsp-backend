@@ -44,9 +44,5 @@ export class CreateWorkerDTO implements Prisma.WorkerCreateInput {
   @IsEmail()
   readonly email: string;
 
-  @IsOptional()
-  readonly documentsUrl: string[];
-  
- 
 
 }
