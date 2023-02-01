@@ -107,6 +107,7 @@ export class WorkerService {
             number: '45177620840'
           }
         },
+        description: 'ANUIDADE MINISTERIAL',
         transaction_amount: 183.22,
         payment_method_id: 'bolbradesco',
         installments: 1
