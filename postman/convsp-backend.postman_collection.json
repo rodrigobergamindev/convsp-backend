@@ -9,7 +9,7 @@
 			"name": "worker",
 			"item": [
 				{
-					"name": "{{host}}/api/workers",
+					"name": "create",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -143,6 +143,54 @@
 								"workers",
 								"63d96242300dd8d9e3ab17c3",
 								"fileUpload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteFiles",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"0888ccaa-fc73-4adb-b52a-445f01e8e14a-1675175824044.pdf\"\r\n]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/workers/63d96242300dd8d9e3ab17c3/deleteFiles",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"63d96242300dd8d9e3ab17c3",
+								"deleteFiles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "payment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/workers/payment",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"payment"
 							]
 						}
 					},
