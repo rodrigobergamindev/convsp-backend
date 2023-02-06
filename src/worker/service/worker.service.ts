@@ -9,7 +9,6 @@ import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { ConfigService } from "@nestjs/config";
 import { S3 } from "aws-sdk";
 import {v4 as uuid} from 'uuid'
-import { DeleteWorkerDocumentDTO } from '../dto/DeleteWorkerDocumentDTO';
 const mercadopago = require('mercadopago')
 
 
@@ -22,7 +21,14 @@ export class WorkerService {
     async create(data: CreateWorkerDTO) {
 
         const worker = await this.prisma.worker.create({
-          data
+          data: {
+            ...data,
+            address: {
+              create: {
+                ...data.address as WorkerAddress
+              }
+            }
+          }
          })
          
          return worker
@@ -91,6 +97,20 @@ export class WorkerService {
       }))
     }
     
+    async generateCode(){
+
+      const searchLastCode = await this.prisma.worker.findFirst({
+        orderBy: {
+          code: 'desc'
+        }
+      })
+
+      const newCode = ++searchLastCode.code
+      console.log(newCode)
+
+    }
+
+    /**
 
     async payment(){
       await mercadopago.configure({
@@ -115,7 +135,7 @@ export class WorkerService {
 
       return await preference.response
     }
-
+ */
 
     async createWorkerAddress(id: string, address: CreateWorkerAddressDTO): Promise<void>{
         await this.prisma.workerAddress.create({
@@ -147,7 +167,9 @@ export class WorkerService {
     async findAll(): Promise<Worker[]>{
         const workers = await this.prisma.worker.findMany({
           include: {
-            document: true
+            document: true,
+            church: true,
+            address: true
           }
         })
       
@@ -172,7 +194,7 @@ export class WorkerService {
             }
           })
         
-          return worker
+          return worker 
       
         }
 
@@ -199,9 +221,12 @@ export class WorkerService {
         }
 
     async findByCode(code: string): Promise<Worker> {
+
+      const convertCode = Number(code)
+
         const worker = await this.prisma.worker.findUnique({
           where: {
-            code
+            code: convertCode
           }
         })
 

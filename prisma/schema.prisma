@@ -12,7 +12,7 @@ datasource db {
 
 model Worker {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  code String @unique
+  code Int @unique
   photo String?
   status Status @default(ATIVO)
   name  String

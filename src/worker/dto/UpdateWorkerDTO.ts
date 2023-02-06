@@ -10,7 +10,7 @@ export class UpdateWorkerDTO implements Prisma.WorkerUpdateInput {
 
   
     @IsNotEmpty()
-    readonly code: string;
+    readonly code: number;
   
     @IsUrl()
     @IsOptional()

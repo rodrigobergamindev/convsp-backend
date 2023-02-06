@@ -10,7 +10,7 @@ import { WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../
 import { WorkerService } from '../service/worker.service';
 import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
 import { Express } from 'express';
-import { DeleteWorkerDocumentDTO } from '../dto/DeleteWorkerDocumentDTO';
+
 
 
 @Controller('api/workers')
@@ -54,6 +54,14 @@ export class WorkerController {
                 if(!worker) throw new NotFoundException({statusCode: 404, message: "Worker Not Found"})
                 return worker
         }
+
+    @Get('generateCode')
+        async generateCode() {
+                const code = await this.workerService.generateCode()
+                //if(!worker) throw new NotFoundException({statusCode: 404, message: "Worker Not Found"})
+                //return worker
+        }
+
     
     
     /**POST */
@@ -76,11 +84,13 @@ export class WorkerController {
 
     }
 
+    /*
     @Post('payment')
     async payment(): Promise<any> {
         return await this.workerService.payment()
     }
-         
+        */
+       
     @Post()
     @UsePipes(ValidationPipe, WorkerValidationAlreadyExistPipe)
         async create(
@@ -116,3 +126,4 @@ export class WorkerController {
             await this.workerService.updateWorkerChurch(userId, churchId)
       }  
 }
+ 
