@@ -9,7 +9,7 @@ import { IsEmail, IsNotEmpty, IsOptional, IsPhoneNumber, IsUrl } from 'class-val
 export class CreateWorkerDTO implements Prisma.WorkerCreateInput {
 
   @IsNotEmpty()
-  readonly code: number;
+  readonly code: string;
 
   @IsUrl()
   @IsOptional()
@@ -44,6 +44,9 @@ export class CreateWorkerDTO implements Prisma.WorkerCreateInput {
   @IsEmail()
   readonly email: string;
 
-  @IsOptional()
+  @IsNotEmpty()
   readonly address: Prisma.WorkerAddressCreateNestedOneWithoutWorkerInput;
+
+  @IsNotEmpty()
+  readonly church: Prisma.ChurchCreateNestedOneWithoutWorkersInput;
 }

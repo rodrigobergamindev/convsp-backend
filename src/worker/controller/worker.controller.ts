@@ -8,7 +8,7 @@ import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../pipes/WorkerValidationPipe';
 import { WorkerService } from '../service/worker.service';
-import { FileInterceptor, FilesInterceptor } from "@nestjs/platform-express";
+import { FilesInterceptor } from "@nestjs/platform-express";
 import { Express } from 'express';
 
 
@@ -58,8 +58,8 @@ export class WorkerController {
     @Get('generateCode')
         async generateCode() {
                 const code = await this.workerService.generateCode()
-                //if(!worker) throw new NotFoundException({statusCode: 404, message: "Worker Not Found"})
-                //return worker
+                if(!code) throw new NotFoundException({statusCode: 404, message: "Erro ao gerar código"})
+                return code
         }
 
     

@@ -3,7 +3,6 @@ import { Church, Document, Worker, WorkerAddress } from '@prisma/client';
 import { PrismaService } from 'src/prisma/service/prisma.service';
 import { CreateWorkerAddressDTO } from '../dto/CreateWorkerAddressDTO';
 import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
-import { UpdateWorkerAddressDTO } from '../dto/UpdateWorkerAddressDTO';
 import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { ConfigService } from "@nestjs/config";
@@ -26,6 +25,11 @@ export class WorkerService {
             address: {
               create: {
                 ...data.address as WorkerAddress
+              }
+            },
+            church: {
+              connect: {
+                code: data.church.connect.code
               }
             }
           }
@@ -104,60 +108,31 @@ export class WorkerService {
           code: 'desc'
         }
       })
-
-      const newCode = ++searchLastCode.code
-      console.log(newCode)
-
-    }
-
-    /**
-
-    async payment(){
-      await mercadopago.configure({
-        access_token: this.configService.get('MERCADOPAGO_ACCESS_KEY')
-      })
-
-      const preference = await mercadopago.payment.create({
-        payer: {
-          email: 'rodrigobergamindev@gmail.com',
-          first_name: 'Rodrigo',
-          last_name: 'Silva',
-          identification: {
-            type: 'cpf',
-            number: '45177620840'
-          }
-        },
-        description: 'ANUIDADE MINISTERIAL',
-        transaction_amount: 183.22,
-        payment_method_id: 'bolbradesco',
-        installments: 1
-      })
-
-      return await preference.response
-    }
- */
-
-    async createWorkerAddress(id: string, address: CreateWorkerAddressDTO): Promise<void>{
-        await this.prisma.workerAddress.create({
-          data: {
-            ...address, 
-            worker: {
-              connect: {
-                id
-              }
-            }
-          },
-        })
-      }
       
-    async update(id: string, worker: UpdateWorkerDTO): Promise<void> {
+      const newCode = parseInt(searchLastCode.code)
+      return newCode
+
+    }
+
+
+    async update(id: string, data: UpdateWorkerDTO): Promise<void> {
      
         await this.prisma.worker.update({
           where: {
             id: id
           },
           data: {
-            ...worker,
+            ...data,
+            address: {
+              update: {
+                ...data.address
+              }
+            },
+              church: {
+                connect: {
+                  code: data.church.connect.code
+                }
+              }
           }
         })
         
@@ -191,6 +166,11 @@ export class WorkerService {
           const worker = await this.prisma.worker.findUnique({
             where: {
                 id
+            },
+            include: {
+              document: true,
+              church: true,
+              address: true
             }
           })
         
@@ -204,6 +184,11 @@ export class WorkerService {
               name: {
                 contains: name
               }
+            },
+            include: {
+              document: true,
+              church: true,
+              address: true
             }
           })
         
@@ -214,6 +199,11 @@ export class WorkerService {
           const worker = await this.prisma.worker.findUnique({
             where: {
               cpf
+            },
+            include: {
+              document: true,
+              church: true,
+              address: true
             }
           })
         
@@ -222,11 +212,16 @@ export class WorkerService {
 
     async findByCode(code: string): Promise<Worker> {
 
-      const convertCode = Number(code)
+      
 
         const worker = await this.prisma.worker.findUnique({
           where: {
-            code: convertCode
+            code
+          },
+          include: {
+            document: true,
+            church: true,
+            address: true
           }
         })
 
@@ -235,52 +230,6 @@ export class WorkerService {
 
 
     /** WORKER ADDRESS */
-
-    async updateAddress(id: string, address: UpdateWorkerAddressDTO): Promise<void>{
-      await this.prisma.workerAddress.update({
-        where: {
-          id
-        },
-        data: {
-          ...address
-        }
-      })
-      
-    }
-
-    async findAddress(workerId: string): Promise<WorkerAddress>{
-      const address = this.prisma.workerAddress.findUnique({
-        where: {
-          workerId
-        }
-      })
-
-      return address
-    }
-
-    async deleteAddress(id: string): Promise<void>{
-      await this.prisma.workerAddress.delete({
-        where: {
-          id
-        }
-      })
-    }
-
-    async updateWorkerChurch(id: string, church: UpdateWorkerChurchDTO): Promise<void>{
-
-      await this.prisma.church.update({
-        where: {
-          code: church.code
-        },
-        data: {
-          workers: {
-            connect: {
-              id
-            }
-          }
-        }
-      })
-    }
 
     async findChurch(churchId: string): Promise<Church>{
       const workerChurch = this.prisma.church.findUnique({
@@ -292,5 +241,32 @@ export class WorkerService {
       return workerChurch
     }
     
+
+        /**
+
+    async payment(){
+      await mercadopago.configure({
+        access_token: this.configService.get('MERCADOPAGO_ACCESS_KEY')
+      })
+
+      const preference = await mercadopago.payment.create({
+        payer: {
+          email: 'rodrigobergamindev@gmail.com',
+          first_name: 'Rodrigo',
+          last_name: 'Silva',
+          identification: {
+            type: 'cpf',
+            number: '45177620840'
+          }
+        },
+        description: 'ANUIDADE MINISTERIAL',
+        transaction_amount: 183.22,
+        payment_method_id: 'bolbradesco',
+        installments: 1
+      })
+
+      return await preference.response
+    }
+ */
 
 }

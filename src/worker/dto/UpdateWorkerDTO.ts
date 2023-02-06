@@ -10,7 +10,7 @@ export class UpdateWorkerDTO implements Prisma.WorkerUpdateInput {
 
   
     @IsNotEmpty()
-    readonly code: number;
+    readonly code: string;
   
     @IsUrl()
     @IsOptional()
@@ -45,6 +45,10 @@ export class UpdateWorkerDTO implements Prisma.WorkerUpdateInput {
     @IsEmail()
     readonly email: string;
   
-    @IsArray()
-    readonly documentsUrl?: string[];
+    @IsNotEmpty()
+    readonly address: Prisma.WorkerAddressUpdateOneWithoutWorkerNestedInput;
+
+    @IsNotEmpty()
+    readonly church: Prisma.ChurchUpdateOneRequiredWithoutWorkersNestedInput;
+
 }

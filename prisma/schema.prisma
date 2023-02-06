@@ -12,7 +12,7 @@ datasource db {
 
 model Worker {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  code Int @unique
+  code String @unique @db.ObjectId
   photo String?
   status Status @default(ATIVO)
   name  String
@@ -25,8 +25,8 @@ model Worker {
   email String?
   document Document[]
   address WorkerAddress?
-  church Church? @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  churchId String? @unique @db.ObjectId 
+  church Church @relation(fields: [churchCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
+  churchCode String @unique @db.ObjectId 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
  
@@ -46,7 +46,7 @@ model Document {
 
 model Church {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  code String @unique
+  code String @unique @db.ObjectId
   photo String?
   status Status? @default(ATIVO)
   name  String?
@@ -111,6 +111,7 @@ enum Role {
   UNDEFINED
   CANDIDATO
   PRESBITERO
+  MISSIONARIA
   EVANGELISTA
   PASTOR
 }
