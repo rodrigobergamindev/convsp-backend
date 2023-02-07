@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Antônio Vieira\",\r\n    \"code\":1234,\r\n    \"role\":\"PRESBITERO\",\r\n    \"rg\":\"39383839-2\",\r\n    \"cpf\":\"392.232.222-01\",\r\n    \"birth\": \"2023-01-30T23:10:50Z\",\r\n    \"consagration\":\"2023-01-30T23:10:50Z\",\r\n    \"phoneNumber\":\"11959943034\",\r\n    \"email\":\"rb.bergamin@gmail.com\",\r\n    \"photo\":\"https://aws.s3.storage/1234/photo\",\r\n    \"address\": {\r\n        \"type\":\"Residencial\",\r\n        \"place\": \"Rua Francisco Rodrigues Seckler\",\r\n        \"number\": \"111\",\r\n        \"complement\": \"83B\",\r\n        \"district\": \"Vila Taquari\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"08230-020\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\":\"Antônio Vieira\",\r\n    \"code\":\"1234\",\r\n    \"role\":\"PRESBITERO\",\r\n    \"rg\":\"39383839-2\",\r\n    \"cpf\":\"392.232.222-01\",\r\n    \"birth\": \"2023-01-30T23:10:50Z\",\r\n    \"consagration\":\"2023-01-30T23:10:50Z\",\r\n    \"phoneNumber\":\"11959943034\",\r\n    \"email\":\"rb.bergamin@gmail.com\",\r\n    \"photo\":\"https://aws.s3.storage/1234/photo\",\r\n    \"address\": {\r\n        \"type\":\"Residencial\",\r\n        \"place\": \"Rua Francisco Rodrigues Seckler\",\r\n        \"number\": \"111\",\r\n        \"complement\":\"83B\",\r\n        \"district\": \"Vila Taquari\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"08230-020\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -221,14 +221,42 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/workers/63e10f8af1b334e292ccd369",
+							"raw": "{{host}}/api/workers/63e28cf63c19839fc5d2a677",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"workers",
-								"63e10f8af1b334e292ccd369"
+								"63e28cf63c19839fc5d2a677"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Antônio Vieira\",\r\n    \"code\":\"1234\",\r\n    \"status\":\"ATIVO\",\r\n    \"role\":\"PRESBITERO\",\r\n    \"rg\":\"39383839-2\",\r\n    \"cpf\":\"392.232.222-01\",\r\n    \"birth\": \"2023-01-30T23:10:50Z\",\r\n    \"consagration\":\"2023-01-30T23:10:50Z\",\r\n    \"phoneNumber\":\"11959943034\",\r\n    \"email\":\"rb.bergamin@gmail.com\",\r\n    \"photo\":\"https://aws.s3.storage/1234/photo\",\r\n    \"address\": {\r\n        \"type\":\"Residencial\",\r\n        \"place\": \"Rua Itaperuã\",\r\n        \"number\": \"1038\",\r\n        \"complement\":null,\r\n        \"district\": \"Vila Taquari\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"08230-020\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/workers/63e28e6794c535d533207487",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"63e28e6794c535d533207487"
 							]
 						}
 					},
@@ -246,7 +274,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\r\n    \"code\": \"4321\",\r\n    \"situacao\":\"ATIVA\",\r\n    \"name\":\"OBPC - VILA TAQUARI - SÃO PAULO\",\r\n    \"cnpj\":\"53.245.606-0001/01\",\r\n    \"templo\":\"PROPRIO\",\r\n    \"membros\":450,\r\n    \"address\": {\r\n        \"type\":\"Residencial\",\r\n        \"place\": \"Rua Francisco Rodrigues Seckler\",\r\n        \"number\": \"111\",\r\n        \"complement\": \"83B\",\r\n        \"district\": \"Vila Taquari\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"08230-020\"\r\n    },\r\n    \"phoneNumber\":\"1195994-3034\",\r\n    \"email\":\"rb.bergamin@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -260,6 +288,73 @@
 							],
 							"path": [
 								"api",
+								"church"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"4321\",\r\n    \"situacao\":\"ATIVA\",\r\n    \"name\":\"OBPC - VILA LEOPOLDINA - SÃO PAULO\",\r\n    \"cnpj\":\"53.245.606-0001/01\",\r\n    \"templo\":\"PROPRIO\",\r\n    \"membros\":450,\r\n    \"address\": {\r\n        \"type\":\"Comercial\",\r\n        \"place\": \"Avenida Brasil\",\r\n        \"number\": \"1225\",\r\n        \"complement\": null,\r\n        \"district\": \"Vila Leopoldina\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"09251-010\"\r\n    },\r\n    \"phoneNumber\":\"1195994-3034\",\r\n    \"email\":\"rb.bergamin@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/church/63e280b1a28005602bb3e1dc",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"church",
+								"63e280b1a28005602bb3e1dc"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByCode",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/church/code/4321",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"church",
+								"code",
+								"4321"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/id/church",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"id",
 								"church"
 							]
 						}
