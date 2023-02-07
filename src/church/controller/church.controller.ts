@@ -69,17 +69,23 @@ export class ChurchController {
         }
 
         @Get('name/:name')
-        async getWorkerByName(
+        async getChurchByName(
             @Param('name') name : string): Promise<Church[]> {
                 const church = await this.churchService.findByName(name)
                 return church
         }
 
         @Get('id/:id')
-        async getWorkerById(
+        async getChurchById(
             @Param('id') id : string): Promise<Church> {
                 const church = await this.churchService.findById(id)
                 if(!church) throw new NotFoundException({statusCode: 404, message: "Church Not Found"})
                 return church
+            }
+
+        @Get()
+            async getChurches(): Promise<Church[]>{
+                const workers = await this.churchService.findAll();
+                return workers
             }
 }
