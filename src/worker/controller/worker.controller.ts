@@ -116,14 +116,6 @@ export class WorkerController {
             await this.workerService.delete(id)
         }
     
-    @Put(':workerId/:churchId')
-    @UsePipes(ValidationPipe)
-        async updateChurch(
-            @Param('userId', WorkerValidationExistPipe) userId: string, 
-            @Body() churchId: UpdateWorkerChurchDTO
-        ): Promise<void>{
-            
-            await this.workerService.updateWorkerChurch(userId, churchId)
-      }  
+    
 }
  

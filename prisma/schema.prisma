@@ -17,23 +17,25 @@ model Worker {
   status Status @default(ATIVO)
   name  String
   role Role @default(UNDEFINED)
+  office Office[] @default([UNDEFINED])
   rg String @unique
   cpf String @unique
   birth DateTime
   consagration DateTime?
   phoneNumber String?
   email String?
-  document Document[]
+  document WorkerDocument[]
   address WorkerAddress?
   church Church @relation(fields: [churchCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
   churchCode String @unique @db.ObjectId 
+
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
  
 }
 
 
-model Document {
+model WorkerDocument {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   key String @unique
   url String
@@ -43,27 +45,46 @@ model Document {
   updatedAt DateTime? @updatedAt
 }
 
+model ChurchDocument {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  key String @unique
+  url String
+  church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  churchId String @unique @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+}
 
-model Church {
+
+model Church  {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   code String @unique @db.ObjectId
-  photo String?
-  status Status? @default(ATIVO)
-  name  String?
-  role Role? @default(UNDEFINED)
-  rg String?
-  cpf String?
-  birth DateTime?
-  consagration DateTime?
+  situacao Situacao @default(ATIVA)
+  name  String
+  type ChurchType @default(UNDEFINED)
+  region String
+  cnpj String?
+  templo Templo @default(PROPRIO)
+  membros Int
   address ChurchAddress?
-  phoneNumber String?
-  email String?
-  documentsUrl String[]
-
+  phoneNumber String
+  email String
+  document ChurchDocument[]
+  observacao ChurchObservacao[]
+  superintendencia Superintendencia @relation(fields: [superintendenciaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  superintendenciaId String @unique @db.ObjectId  
   workers Worker[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
   
+  
+}
+
+model Superintendencia {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  code String @unique @db.ObjectId
+  church Church[]
 }
 
 model WorkerAddress {
@@ -93,11 +114,39 @@ model ChurchAddress {
   city String
   state String
   zip_code String
-  church   Church   @relation(fields: [churchId], references: [id])
+  church   Church   @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   churchId String @unique @db.ObjectId 
 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+
+model ChurchObservacao {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  churchId String @unique @db.ObjectId 
+}
+
+model WorkerObservacao {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+}
+
+enum Office {
+  UNDEFINED
+  SUPERINTENDENTE
+  PRESIDENTE
+  DIRIGENTE
+  SECRETARIO
+  JUBILADO
+  AUXILIAR
+}
+
+enum ChurchType {
+  SUPERITENDENTE
+  SEDE
+  CONGREGACAO
+  UNDEFINED
 }
 
 enum Status {
@@ -105,6 +154,17 @@ enum Status {
   DESATIVADO
   INATIVO
   DESLIGADO
+}
+
+enum Templo {
+  PROPRIO
+  ALUGADO
+  OUTRO
+}
+
+enum Situacao {
+  DESATIVADA
+  ATIVA
 }
 
 enum Role {
