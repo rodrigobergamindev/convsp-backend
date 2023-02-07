@@ -6,7 +6,7 @@ import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsPhoneNumber, IsUrl } from 
 
 
 
-export class CreateChurchDTO implements Prisma.ChurchCreateInput {
+export class UpdateChurchDTO implements Prisma.ChurchUpdateInput {
 
     @IsNotEmpty()
     readonly code: string;
@@ -55,7 +55,5 @@ export class CreateChurchDTO implements Prisma.ChurchCreateInput {
     readonly congregations?: Prisma.ChurchCreateNestedManyWithoutHeadquarterInput;
 
      
-
-
  
 }

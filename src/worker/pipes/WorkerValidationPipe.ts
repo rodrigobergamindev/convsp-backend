@@ -42,25 +42,6 @@ export class WorkerValidationAlreadyExistPipe implements PipeTransform {
     }
 }
 
-@Injectable()
-export class WorkerValidationAddressExist implements PipeTransform {
-
-    constructor(private readonly workerService: WorkerService){}
-
-    async transform(value: any, metadata: ArgumentMetadata) {
-    
-        if(!value){
-            throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
-        }
-
-        const addressExist = await this.workerService.findAddress(value)
-        if(!addressExist) throw new NotFoundException({statusCode: 400, message: "Endereço não encontrado para este usuário"})
-        
-        return value
-
-    }
-}
-
 
 @Injectable()
 export class WorkerValidationChurchExist implements PipeTransform {

@@ -26,11 +26,6 @@ export class WorkerService {
               create: {
                 ...data.address as WorkerAddress
               }
-            },
-            church: {
-              connect: {
-                code: data.church.connect.code
-              }
             }
           }
          })
@@ -39,7 +34,7 @@ export class WorkerService {
          
        }
 
-    async fileUpload(workerId: string, files: Express.Multer.File[]): Promise<any>{
+    async fileUpload(workerId: string, files: Express.Multer.File[]): Promise<void>{
 
       const filesToUpload = await Promise.all(files.map(async (file) => {
         const s3 = new S3()
@@ -71,15 +66,9 @@ export class WorkerService {
          }
 
        }))
-
-    
-      
-
-     
-  
     }
 
-    async deleteFiles(files: string[]) {
+    async deleteFiles(files: string[]): Promise<void> {
       const filesToDelete = await Promise.all(files.map(async (file) => {
         const s3 = new S3()
 
@@ -109,7 +98,7 @@ export class WorkerService {
         }
       })
       
-      const newCode = parseInt(searchLastCode.code)
+      const newCode = parseInt(searchLastCode.code) + 1
       return newCode
 
     }
@@ -127,12 +116,7 @@ export class WorkerService {
               update: {
                 ...data.address
               }
-            },
-              church: {
-                connect: {
-                  code: data.church.connect.code
-                }
-              }
+            }
           }
         })
         
@@ -140,13 +124,7 @@ export class WorkerService {
       } 
 
     async findAll(): Promise<Worker[]>{
-        const workers = await this.prisma.worker.findMany({
-          include: {
-            document: true,
-            church: true,
-            address: true
-          }
-        })
+        const workers = await this.prisma.worker.findMany()
       
         return workers
         }
@@ -184,11 +162,6 @@ export class WorkerService {
               name: {
                 contains: name
               }
-            },
-            include: {
-              document: true,
-              church: true,
-              address: true
             }
           })
         
@@ -230,6 +203,10 @@ export class WorkerService {
 
 
     /** WORKER ADDRESS */
+
+
+
+    /**WORKER CHURCH */
 
     async findChurch(churchId: string): Promise<Church>{
       const workerChurch = this.prisma.church.findUnique({

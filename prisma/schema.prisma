@@ -12,32 +12,35 @@ datasource db {
 
 model Worker {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  code String @unique @db.ObjectId
+  code String @unique
   photo String?
   status Status @default(ATIVO)
   name  String
   role Role @default(UNDEFINED)
-  office Office[] @default([UNDEFINED])
   rg String @unique
   cpf String @unique
   birth DateTime
   consagration DateTime?
   phoneNumber String?
   email String?
-  document WorkerDocument[]
+  document Document[]
   address WorkerAddress?
-  church Church @relation(fields: [churchCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
-  churchCode String @unique @db.ObjectId 
+  church Church? @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  churchId String? @unique @db.ObjectId
 
-  presidency Presidency @relation(fields: [presidencyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  presidencyId String @unique @db.ObjectId
+  president Board[] @relation("President")
+  leader Board[] @relation("Leader")
+  superintendence Superintendence[]
+
+  annotations WorkerAnnotation[]
+ 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
  
 }
 
 
-model WorkerDocument {
+model Document {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   key String @unique
   url String
@@ -60,46 +63,57 @@ model ChurchDocument {
 
 model Church  {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  code String @unique @db.ObjectId
+  code String @unique
   situacao Situacao @default(ATIVA)
   name  String
-  type ChurchType @default(UNDEFINED)
-  region String
   cnpj String?
-  templo Templo @default(PROPRIO)
-  membros Int
+  templo Templo? @default(PROPRIO)
+  membros Int?
   address ChurchAddress?
-  phoneNumber String
-  email String
+  phoneNumber String?
+  email String?
   document ChurchDocument[]
-  observacao ChurchObservacao[]
-  superintendencia Superintendencia @relation(fields: [superintendenciaId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  superintendenciaId String @unique @db.ObjectId  
+  annotations ChurchAnnotation[]
+
+  superintendence Superintendence? @relation(fields: [superintendenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  superintendenceId String? @unique @db.ObjectId  
+  
   workers Worker[]
+  board Board?
 
-  presidency Presidency? @relation(fields: [presidencyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  presidencyId String @unique @db.ObjectId
+  headquarterId String? @unique @db.ObjectId
+  headquarter   Church?   @relation(name:"Headquarter", fields: [headquarterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  congregations Church[] @relation(name: "Headquarter")
 
+  
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
   
-  
 }
 
 
-model Presidency {
+model Board {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   validity String
-  president Worker
-  church Church
-  dirigente Worker
+
+  church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  churchId String @unique @db.ObjectId
+
+  president Worker @relation(name: "President", fields: [presidentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  presidentId String @unique @db.ObjectId
+
+  leader Worker @relation(name: "Leader", fields: [leaderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  leaderId String @unique @db.ObjectId
+
 }
 
-
-model Superintendencia {
+model Superintendence {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  code String @unique @db.ObjectId
+  name String @unique 
   church Church[]
+  superintendent Worker @relation(fields: [superintendentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  superintendentId String @unique @db.ObjectId
+  region String
 }
 
 model WorkerAddress {
@@ -137,31 +151,16 @@ model ChurchAddress {
 }
 
 
-model ChurchObservacao {
+model ChurchAnnotation {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   churchId String @unique @db.ObjectId 
 }
 
-model WorkerObservacao {
+model WorkerAnnotation {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-}
-
-enum Office {
-  UNDEFINED
-  SUPERINTENDENTE
-  PRESIDENTE
-  DIRIGENTE
-  SECRETARIO
-  JUBILADO
-  AUXILIAR
-}
-
-enum ChurchType {
-  SUPERITENDENTE
-  SEDE
-  CONGREGACAO
-  UNDEFINED
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  workerId String @unique @db.ObjectId 
 }
 
 enum Status {
@@ -187,6 +186,9 @@ enum Role {
   CANDIDATO
   PRESBITERO
   MISSIONARIA
+  MISSIONARIO
   EVANGELISTA
   PASTOR
+  DIACONO
+  DIACONISA
 }
