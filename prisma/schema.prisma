@@ -29,6 +29,8 @@ model Worker {
   church Church @relation(fields: [churchCode], references: [code], onDelete: Cascade, onUpdate: Cascade)
   churchCode String @unique @db.ObjectId 
 
+  presidency Presidency @relation(fields: [presidencyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  presidencyId String @unique @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
  
@@ -75,11 +77,24 @@ model Church  {
   superintendenciaId String @unique @db.ObjectId  
   workers Worker[]
 
+  presidency Presidency? @relation(fields: [presidencyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  presidencyId String @unique @db.ObjectId
+
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
   
   
 }
+
+
+model Presidency {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  validity String
+  president Worker
+  church Church
+  dirigente Worker
+}
+
 
 model Superintendencia {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
