@@ -30,7 +30,9 @@ model Worker {
 
   president Board[] @relation("President")
   leader Board[] @relation("Leader")
-  superintendence Superintendence[]
+  superintendenceId String @unique @db.ObjectId 
+  superintendence Superintendence @relation(fields: [superintendenceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
 
   annotations WorkerAnnotation[]
  
@@ -75,8 +77,9 @@ model Church  {
   document ChurchDocument[]
   annotations ChurchAnnotation[]
 
-  superintendence Superintendence? @relation(fields: [superintendenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  superintendenceId String? @unique @db.ObjectId  
+  superintendence Superintendence? @relation(name: "ChurchesSuperintendence", fields: [superintendenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  superintendenceId String? @unique @db.ObjectId 
+
   
   workers Worker[]
   board Board?
@@ -110,9 +113,10 @@ model Board {
 model Superintendence {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   name String @unique 
-  church Church[]
-  superintendent Worker @relation(fields: [superintendentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  superintendentId String @unique @db.ObjectId
+  church Church[] @relation(name:"ChurchesSuperintendence")
+
+  
+  superintendent Worker?
   region String
 }
 
@@ -154,13 +158,24 @@ model ChurchAddress {
 model ChurchAnnotation {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  churchId String @unique @db.ObjectId 
+  churchId String @unique @db.ObjectId
+  title String
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 model WorkerAnnotation {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  workerId String @unique @db.ObjectId 
+  workerId String @unique @db.ObjectId
+
+  title String
+  content String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
 }
 
 enum Status {

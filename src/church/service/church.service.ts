@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { S3 } from 'aws-sdk';
-import { Church, ChurchAddress, PrismaService } from 'src/prisma/module';
+import { Church, ChurchAddress, ChurchAnnotation, PrismaService } from 'src/prisma/module';
 import { CreateChurchDTO } from '../dto/CreateChurchDTO';
 import {v4 as uuid} from 'uuid'
 import { UpdateChurchDTO } from '../dto/UpdateChurchDTO';
+import { CreateChurchAnnotationDTO } from '../dto/CreateChurchAnnotationDTO';
+import { UpdateChurchAnnotationDTO } from '../dto/UpdateChurchAnnotationDTO';
 
 
 @Injectable()
@@ -73,7 +75,7 @@ export class ChurchService {
       })
 
       return church
-  }
+    }
 
 
 
@@ -200,4 +202,63 @@ export class ChurchService {
       }
 
 
+      /*ANNOTATIONS*/
+
+      async createAnnotation(churchId: string, data: CreateChurchAnnotationDTO): Promise<void> {
+
+        const createAnnotation = await this.prisma.churchAnnotation.create({
+          data: {
+            ...data,
+            church: {
+              connect: {
+                id: churchId
+              }
+            }
+          }
+        })
+      }
+
+      async findAllAnnotations(churchId: string): Promise<ChurchAnnotation[]> {
+        const annotations = await this.prisma.churchAnnotation.findMany({
+          where: {
+            churchId
+          }
+        })
+        return annotations
+      }
+
+      async findAnnotation(annotationId: string): Promise<ChurchAnnotation> {
+
+        const annotation = await this.prisma.churchAnnotation.findUnique({
+          where: {
+            id: annotationId
+          }
+        })
+
+        return annotation
+      }
+
+      async updateAnnotation(annotationId: string, data: UpdateChurchAnnotationDTO): Promise<void> {
+
+        const updateAnnotation = await this.prisma.churchAnnotation.update({
+          where: {
+            id: annotationId
+          },
+          data
+        })
+      }
+
+      async deleteAnnotation(annotationId: string): Promise<void> {
+        const deleteAnnotation = await this.prisma.churchAnnotation.delete({
+          where: {
+            id: annotationId
+          }
+        })
+      }
+
+      /** SUPERINTENDENCE */
+
+      async createSuperintendence(data: CreateSuperintendenceDTO) {
+
+      }
 }
