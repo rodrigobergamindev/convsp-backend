@@ -360,6 +360,138 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "createSuperintendenceChurch",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/church/63e280b1a28005602bb3e1dc/superintendence/63e3f1bd339417176a93d4ab",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"church",
+								"63e280b1a28005602bb3e1dc",
+								"superintendence",
+								"63e3f1bd339417176a93d4ab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteSuperintendenceChurch",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/church/63e280b1a28005602bb3e1dc/superintendence",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"church",
+								"63e280b1a28005602bb3e1dc",
+								"superintendence"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "superintendence",
+			"item": [
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\":\"AVARÉ\",\r\n  \"region\":\"INTERIOR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/superintendence/63e280b1a28005602bb3e1dc/63e28e6794c535d533207487",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"superintendence",
+								"63e280b1a28005602bb3e1dc",
+								"63e28e6794c535d533207487"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/superintendence",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"superintendence"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/superintendence/name/AVARÉ",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"superintendence",
+								"name",
+								"AVARÉ"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/superintendence/63e3ee80a5cf904473195712",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"superintendence",
+								"63e3ee80a5cf904473195712"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
