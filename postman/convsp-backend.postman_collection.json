@@ -401,6 +401,26 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "findSuperintendenceChurch",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/church/63e280b1a28005602bb3e1dc/superintendence",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"church",
+								"63e280b1a28005602bb3e1dc",
+								"superintendence"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},

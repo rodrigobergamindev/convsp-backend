@@ -94,6 +94,14 @@ export class ChurchController {
 
         /*SUPERINTENDENCE*/
 
+        @Get(':churchId/superintendence')
+        async getSuperintendence(
+            @Param('churchId') churchId : string): Promise<Church> {
+                const church = await this.churchService.findSuperintendenceChurch(churchId)
+                if(!church) throw new NotFoundException({statusCode: 404, message: "Church Not Found"})
+                return church
+            }
+
         @Put(':churchId/superintendence/:superintendenceId')
         @UsePipes(ValidationPipe)
         async updateSuperintendenceChurch(
@@ -110,4 +118,6 @@ export class ChurchController {
             ): Promise<void>{
                  await this.churchService.deleteSuperintendenceChurch(churchId)
           }
+
+
 }
