@@ -7,7 +7,7 @@ import {v4 as uuid} from 'uuid'
 import { UpdateChurchDTO } from '../dto/UpdateChurchDTO';
 import { CreateChurchAnnotationDTO } from '../dto/CreateChurchAnnotationDTO';
 import { UpdateChurchAnnotationDTO } from '../dto/UpdateChurchAnnotationDTO';
-import { CreateSuperintendenceDTO } from '../dto/CreateSuperintendenceDTO';
+import { CreateSuperintendenceDTO } from '../../superintendence/dto/CreateSuperintendenceDTO';
 
 
 @Injectable()
@@ -257,26 +257,6 @@ export class ChurchService {
         })
       }
 
-      /** SUPERINTENDENCE */
-
-      async createSuperintendence(matrizId: string, superintendentId: string, data: CreateSuperintendenceDTO) {
-
-        const createSuperintendence = await this.prisma.superintendence.create({
-          data: {
-            ...data,
-            matriz: {
-              connect: {
-                id: matrizId
-              }
-            },
-            superintendent: {
-              connect: {
-                id: superintendentId
-              }
-            }
-          }
-        })
-      }
 
 
 }
