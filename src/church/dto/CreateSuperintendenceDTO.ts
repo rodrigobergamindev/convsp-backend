@@ -12,4 +12,7 @@ export class CreateSuperintendenceDTO implements Prisma.SuperintendenceCreateInp
 
     @IsNotEmpty()
     readonly superintendent: Prisma.WorkerCreateNestedOneWithoutSuperintendenceInput;
+
+    @IsNotEmpty()
+    readonly matriz: Prisma.ChurchCreateNestedOneWithoutMatrizInput;
   }
