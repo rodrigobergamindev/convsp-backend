@@ -10,9 +10,5 @@ export class UpdateSuperintendenceDTO implements Prisma.SuperintendenceUpdateInp
     @IsNotEmpty()
     readonly region;
 
-    @IsNotEmpty()
-    readonly superintendent: Prisma.WorkerUpdateOneRequiredWithoutSuperintendenceNestedInput;
-
-    @IsNotEmpty()
-    readonly matriz: Prisma.ChurchUpdateOneRequiredWithoutMatrizNestedInput;
+   
   }

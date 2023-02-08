@@ -35,7 +35,8 @@ export class ChurchService {
           document: true,
           headquarter: true,
           superintendence: true,
-          workers: true
+          workers: true,
+          matriz: true
         }
       })
     
@@ -71,7 +72,8 @@ export class ChurchService {
           document: true,
           headquarter: true,
           superintendence: true,
-          workers: true
+          workers: true,
+          matriz: true
         }
       })
 
@@ -258,5 +260,57 @@ export class ChurchService {
       }
 
 
+      /**SUPERINTENDENCE */
 
+      async updateSuperintendence(churchId: string, superintendenceId: string): Promise<void> {
+
+        const createSuperintendence =  await this.prisma.church.update({
+          where: {
+            id: churchId
+          },
+          data: {
+            superintendence: {
+              connect: {
+                id: superintendenceId
+              }
+            }
+          }
+        })
+      }
+
+      async findSuperintendenceChurch(churchId: string): Promise<Church> {
+
+        const superintendenceChurch = await this.prisma.church.findUnique({
+          where: {
+            id: churchId
+          },
+          include: {
+            superintendence: {
+              include: {
+                superintendent: true,
+                matriz: true
+              }
+            }
+          }
+        })
+
+        return superintendenceChurch
+      }
+
+      async deleteSuperintendenceChurch(churchId: string): Promise<void> {
+
+        const createSuperintendence =  await this.prisma.church.update({
+          where: {
+            id: churchId
+          },
+          data: { 
+            superintendence: {
+              disconnect: true
+            },
+            matriz: {
+              disconnect: true
+            }
+          }
+        })
+      }
 }

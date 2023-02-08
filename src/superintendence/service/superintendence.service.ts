@@ -9,7 +9,7 @@ export class SuperintendenceService {
 
     constructor(private readonly prisma: PrismaService, private readonly configService: ConfigService) {}
 
-    async findAll(): Promise<Superintendence[]>{
+        async findAll(): Promise<Superintendence[]>{
         const superintendence = await this.prisma.superintendence.findMany()
       
         return superintendence
@@ -22,7 +22,8 @@ export class SuperintendenceService {
             },
             include: {
                 church: true,
-                superintendent: true,
+                matriz: true, 
+                superintendent: true
             }
           })
         
@@ -31,10 +32,16 @@ export class SuperintendenceService {
         }
     
         async findByName(name: string): Promise<Superintendence> {
+        
           const superintendence = await this.prisma.superintendence.findUnique({
             where: {
               name
-            }
+            },
+            include: {
+              church: true,
+              matriz: true,
+              superintendent: true
+          }
           })
         
           return superintendence
@@ -44,18 +51,23 @@ export class SuperintendenceService {
     
     
         async create(matrizId: string, superintendentId: string, data: CreateSuperintendenceDTO) {
-
+          
             const createSuperintendence = await this.prisma.superintendence.create({
               data: {
                 ...data,
+                superintendent: {
+                  connect: {
+                    id: superintendentId
+                  }
+                },
                 matriz: {
                   connect: {
                     id: matrizId
                   }
                 },
-                superintendent: {
+                church: {
                   connect: {
-                    id: superintendentId
+                    id: matrizId
                   }
                 }
               }
@@ -63,7 +75,7 @@ export class SuperintendenceService {
           }
 
         async update(superintendenceId: string, superintendentId: string, matrizId: string, data: UpdateSuperintendenceDTO){
-            const createSuperintendence = await this.prisma.superintendence.update({
+            const updateSuperintendence = await this.prisma.superintendence.update({
                 where: {
                     id: superintendenceId
                 },
@@ -92,8 +104,9 @@ export class SuperintendenceService {
             })
             
 
-        }
+            }
 
+        
 
         }
 

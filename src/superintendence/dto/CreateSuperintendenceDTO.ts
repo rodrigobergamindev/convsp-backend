@@ -5,14 +5,9 @@ import { IsNotEmpty, IsOptional } from "class-validator";
 export class CreateSuperintendenceDTO implements Prisma.SuperintendenceCreateInput {
 
     @IsNotEmpty()
-    readonly name;
+    readonly name: string;
 
     @IsNotEmpty()
-    readonly region;
+    readonly region: string;
 
-    @IsNotEmpty()
-    readonly superintendent: Prisma.WorkerCreateNestedOneWithoutSuperintendenceInput;
-
-    @IsNotEmpty()
-    readonly matriz: Prisma.ChurchCreateNestedOneWithoutMatrizInput;
   }

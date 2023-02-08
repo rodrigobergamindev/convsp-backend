@@ -194,7 +194,11 @@ export class WorkerService {
           include: {
             document: true,
             church: true,
-            address: true
+            address: true,
+            annotations: true,
+            leader: true,
+            superintendence: true,
+            president: true
           }
         })
 

@@ -116,11 +116,11 @@ model Superintendence {
   name String @unique 
   church Church[] @relation(name:"ChurchesSuperintendence")
 
-  matrizId String @unique @db.ObjectId
-  matriz Church @relation(name:"MatrizSuperintendence", fields:[matrizId], references: [id])
+  matrizId String? @unique @db.ObjectId
+  matriz Church? @relation(name:"MatrizSuperintendence", fields:[matrizId], references: [id])
 
-  superintendentId String @db.ObjectId
-  superintendent Worker @relation(fields: [superintendentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  superintendentId String? @db.ObjectId
+  superintendent Worker? @relation(fields: [superintendentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   region String
 }
 
