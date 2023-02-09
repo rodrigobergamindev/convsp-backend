@@ -57,8 +57,8 @@ export class WorkerAnnotationValidationExist implements PipeTransform {
             throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
         }
 
-        const churchExist = await this.workerService.findAnnotationById(value)
-        if(!churchExist) throw new NotFoundException({statusCode: 400, message: "Anotação não encontrada"})
+        const annotationExist = await this.workerService.findAnnotationById(value)
+        if(!annotationExist) throw new NotFoundException({statusCode: 400, message: "Anotação não encontrada"})
         
         return value
 

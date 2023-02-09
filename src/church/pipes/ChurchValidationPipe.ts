@@ -43,3 +43,25 @@ export class ChurchValidationAlreadyExistPipe implements PipeTransform {
 
     }
 }
+
+
+/*ANNOTATIONS*/
+
+@Injectable()
+export class ChurchAnnotationValidationExist implements PipeTransform {
+
+    constructor(private readonly churchService: ChurchService){}
+
+    async transform(value: any, metadata: ArgumentMetadata) {
+    
+        if(!value){
+            throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
+        }
+
+        const annotationExist = await this.churchService.findAnnotationById(value)
+        if(!annotationExist) throw new NotFoundException({statusCode: 400, message: "Anotação não encontrada"})
+        
+        return value
+
+    }
+}

@@ -313,4 +313,59 @@ export class ChurchService {
           }
         })
       }
+
+
+
+
+    /**CHURCH ANNOTATION */
+
+
+    async createAnnotationForChurch(churchId: string, data: CreateChurchAnnotationDTO): Promise<void> {
+        
+      const updateAnnotationForChurch = await this.prisma.churchAnnotation.create({
+        data: {
+         ...data,
+         church: {
+          connect: {
+            id: churchId
+          }
+         }
+        }
+      })
+    }
+
+    async updateAnnotationForChurch(idAnnotation: string, data: UpdateChurchAnnotationDTO): Promise<void> {
+        
+      const updateAnnotationForChurch = await this.prisma.churchAnnotation.update({
+        where: {
+          id: idAnnotation
+        },
+        data: {
+          ...data
+        }
+      })
+    }
+
+    async findAnnotationById(idAnnotation: string): Promise<ChurchAnnotation> {
+        
+      const churchAnnotation = await this.prisma.churchAnnotation.findUnique({
+        where: {
+          id: idAnnotation
+        }
+      })
+
+      return churchAnnotation
+    }
+
+    async deleteAnnotationForChurch(idAnnotation: string): Promise<void> {
+        
+      const churchAnnotation = await this.prisma.churchAnnotation.delete({
+        where: {
+          id: idAnnotation
+        }
+      })
+
+
+    }
+
 }
