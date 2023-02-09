@@ -90,6 +90,11 @@ export class SuperintendenceService {
                     connect: {
                       id: superintendentId
                     }
+                  },
+                  church: {
+                    connect: {
+                      id: matrizId
+                    }
                   }
                 }
               })
@@ -97,7 +102,7 @@ export class SuperintendenceService {
 
         async delete(superintendenceId: string){
             
-            await this.prisma.superintendence.delete({
+           const deleteSuperintendence = await this.prisma.superintendence.delete({
                 where: {
                     id: superintendenceId
                 }
@@ -106,7 +111,39 @@ export class SuperintendenceService {
 
             }
 
-        
+        async removeChurch(churchId: string, superintendenceId: string) {
+
+          const removeChurch = await this.prisma.superintendence.update({
+            where: {
+              id: superintendenceId
+            },
+            data: {
+              church: {
+                disconnect: {
+                  id: churchId
+                }
+              }
+            }
+          })
+
+        }
+
+        async addChurch(churchId: string, superintendenceId: string) {
+
+          const addChurch = await this.prisma.superintendence.update({
+            where: {
+              id: superintendenceId
+            },
+            data: {
+              church: {
+                connect: {
+                  id: churchId
+                }
+              }
+            }
+          })
+
+        }
 
         }
 

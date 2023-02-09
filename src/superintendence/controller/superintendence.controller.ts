@@ -1,5 +1,6 @@
-import { Body, Controller, Delete, Get, Param, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Superintendence } from '@prisma/client';
+import { ChurchValidationExistPipe } from 'src/church/pipes/ChurchValidationPipe';
 import { WorkerValidationExistPipe } from 'src/worker/pipes/WorkerValidationPipe';
 import { CreateSuperintendenceDTO } from '../dto/CreateSuperintendenceDTO';
 import { SuperintendenceValidationAlreadyExistPipe, SuperintendenceValidationExistPipe } from '../pipes/SuperintendenceValidationPipe';
@@ -35,6 +36,13 @@ export class SuperintendenceController {
                 return superintendence
         }
 
+        @Get('id/:id')
+        async getSuperintendenceById(
+            @Param('id') id : string): Promise<Superintendence> {
+                const superintendence = await this.superintendenceService.findById(id)
+                return superintendence
+        }
+
         @Delete(':id')
         async deleteUser(
             @Param('id', SuperintendenceValidationExistPipe) id : string): Promise<void> {
@@ -42,4 +50,23 @@ export class SuperintendenceController {
                 await this.superintendenceService.delete(id)
             }
 
+
+
+        /*REMOVE CHURCH*/
+
+        @Patch('church/remove/:superintendenceId/:churchId')
+        async removeChurch(
+            @Param('churchId', ChurchValidationExistPipe) churchId: string,
+            @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
+            ): Promise<void> {
+                await this.superintendenceService.removeChurch(churchId, superintendenceId)
+            }
+        
+        @Patch('church/add/:superintendenceId/:churchId')
+        async addChurch(
+            @Param('churchId', ChurchValidationExistPipe) churchId: string,
+            @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
+            ): Promise<void> {
+                await this.superintendenceService.addChurch(churchId, superintendenceId)
+            }
 }
