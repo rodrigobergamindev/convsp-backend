@@ -1,13 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { S3 } from 'aws-sdk';
-import { Church, ChurchAddress, ChurchAnnotation, PrismaService } from 'src/prisma/module';
+import { Board, Church, ChurchAddress, ChurchAnnotation, PrismaService } from 'src/prisma/module';
 import { CreateChurchDTO } from '../dto/CreateChurchDTO';
 import {v4 as uuid} from 'uuid'
 import { UpdateChurchDTO } from '../dto/UpdateChurchDTO';
 import { CreateChurchAnnotationDTO } from '../dto/CreateChurchAnnotationDTO';
 import { UpdateChurchAnnotationDTO } from '../dto/UpdateChurchAnnotationDTO';
 import { CreateSuperintendenceDTO } from '../../superintendence/dto/CreateSuperintendenceDTO';
+import { CreateBoardDTO } from '../dto/CreateBoardDTO';
+import { UpdateBoardDTO } from '../dto/UpdateBoardDTO';
 
 
 @Injectable()
@@ -57,7 +59,6 @@ export class ChurchService {
     }
 
 
-
     async findByCode(code: string): Promise<Church> {
 
       const church = await this.prisma.church.findUnique({
@@ -80,9 +81,6 @@ export class ChurchService {
       return church
     }
 
-
-
-
     async create(data: CreateChurchDTO) {
 
       const church = await this.prisma.church.create({
@@ -100,6 +98,54 @@ export class ChurchService {
           
     }
 
+    
+    async generateCode(){
+
+      const searchLastCode = await this.prisma.church.findFirst({
+        orderBy: {
+          code: 'desc'
+        }
+      })
+      
+      const newCode = parseInt(searchLastCode.code) + 1
+      return newCode
+  
+    }
+  
+
+    async update(id: string, data: UpdateChurchDTO): Promise<void> {
+   
+      await this.prisma.church.update({
+        where: {
+          id: id
+        },
+        data: {
+          ...data,
+          address: {
+            update: {
+              ...data.address
+            }
+          }
+        }
+      })
+      
+      
+    }
+
+
+    async delete(id: string): Promise<void> {
+    
+      await this.prisma.church.delete({
+        where: {
+          id
+        }
+      })
+
+    }
+
+
+
+    /*FILES*/
 
     async fileUpload(churchId: string, files: Express.Multer.File[]): Promise<void>{
 
@@ -158,58 +204,11 @@ export class ChurchService {
       }
 
 
-
-
-      async generateCode(){
-
-        const searchLastCode = await this.prisma.church.findFirst({
-          orderBy: {
-            code: 'desc'
-          }
-        })
-        
-        const newCode = parseInt(searchLastCode.code) + 1
-        return newCode
-    
-      }
-    
-
-      async update(id: string, data: UpdateChurchDTO): Promise<void> {
-     
-        await this.prisma.church.update({
-          where: {
-            id: id
-          },
-          data: {
-            ...data,
-            address: {
-              update: {
-                ...data.address
-              }
-            }
-          }
-        })
-        
-        
-      }
-
-
-      async delete(id: string): Promise<void> {
-      
-        await this.prisma.church.delete({
-          where: {
-            id
-          }
-        })
-  
-      }
-
-
       /**SUPERINTENDENCE */
 
       async updateSuperintendence(churchId: string, superintendenceId: string): Promise<void> {
 
-        const createSuperintendence =  await this.prisma.church.update({
+        const updateSuperintendence =  await this.prisma.church.update({
           where: {
             id: churchId
           },
@@ -260,6 +259,83 @@ export class ChurchService {
       }
 
 
+      /*BOARD*/
+
+      async createChurchBoard(churchId: string, 
+        presidentId: string, 
+        leaderId: string, 
+        data: CreateBoardDTO): Promise<void> {
+
+          const createChurchBoard = await this.prisma.board.create({
+            data: {
+              ...data,
+              president: {
+                connect: {
+                  id: presidentId
+                }
+              },
+              leader: {
+                connect: {
+                  id: leaderId
+                }
+              },
+              church: {
+                connect: {
+                  id: churchId
+                }
+              }
+            }
+          })
+      
+        
+      }
+
+      async updateChurchBoard(
+        boardId: string,
+        churchId: string, 
+        presidentId: string, 
+        leaderId: string, 
+        data: UpdateBoardDTO
+      ): Promise<void> {
+        
+
+        const createChurchBoard = await this.prisma.board.update({
+
+        where: {
+          id: boardId
+        },
+          data: {
+            ...data,
+            president: {
+              connect: {
+                id: presidentId
+              }
+            },
+            leader: {
+              connect: {
+                id: leaderId
+              }
+            },
+            church: {
+              connect: {
+                id: churchId
+              }
+            }
+          }
+        })
+
+      }
+
+      async findBoardById(boardId: string): Promise<Board>{
+
+        const board = await this.prisma.board.findUnique({
+          where: {
+            id: boardId
+          }
+        })
+
+        return board
+      }
 
 
     /**CHURCH ANNOTATION */

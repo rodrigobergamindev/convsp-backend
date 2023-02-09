@@ -121,6 +121,8 @@ export class ChurchController {
                  await this.churchService.deleteSuperintendenceChurch(churchId)
           }
 
+          
+
 
         /*CHURCH ANNOTATIONS*/
 
