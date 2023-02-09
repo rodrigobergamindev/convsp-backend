@@ -265,7 +265,7 @@ export class ChurchService {
         presidentId: string, 
         leaderId: string, 
         data: CreateBoardDTO): Promise<void> {
-
+ 
           const createChurchBoard = await this.prisma.board.create({
             data: {
               ...data,

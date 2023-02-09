@@ -13,7 +13,5 @@ export class CreateWorkerAnnotationDTO implements Prisma.WorkerAnnotationCreateI
     @IsNotEmpty()
     readonly content: string;
 
-
-    @IsNotEmpty()
     readonly worker: Prisma.WorkerCreateNestedOneWithoutAnnotationsInput;
 }

@@ -131,9 +131,9 @@ export class WorkerController {
                await this.workerService.updateChurchForWorker(id, churchId)
         }
 
-    /*ANNOTATIONS*/
-
-    @Post(':workerId/annotations')
+    /*ANNOTATIONS*/ 
+ 
+    @Post('annotations/:workerId')
     @UsePipes(ValidationPipe)
     async createAnnotationForWorker(
           @Param('workerId', WorkerValidationExistPipe) workerId: string,
@@ -142,7 +142,7 @@ export class WorkerController {
                await this.workerService.createAnnotationForWorker(workerId, data)
         }
 
-    @Put(':idAnnotation')
+    @Put('annotations/:idAnnotation')
     @UsePipes(ValidationPipe)
     async updateAnnotationForWorker(
           @Param('idAnnotation', WorkerAnnotationValidationExist) idAnnotation: string,

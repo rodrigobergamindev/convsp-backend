@@ -143,6 +143,7 @@ export class WorkerService {
       
 
     async findById(id: string): Promise<Worker> {
+       
           const worker = await this.prisma.worker.findUnique({
             where: {
                 id
