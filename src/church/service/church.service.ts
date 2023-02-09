@@ -135,7 +135,7 @@ export class ChurchService {
          }))
       }
   
-      async deleteFiles(files: string[]): Promise<void> {
+    async deleteFiles(files: string[]): Promise<void> {
         const filesToDelete = await Promise.all(files.map(async (file) => {
           const s3 = new S3()
   
@@ -202,61 +202,6 @@ export class ChurchService {
           }
         })
   
-      }
-
-
-      /*ANNOTATIONS*/
-
-      async createAnnotation(churchId: string, data: CreateChurchAnnotationDTO): Promise<void> {
-
-        const createAnnotation = await this.prisma.churchAnnotation.create({
-          data: {
-            ...data,
-            church: {
-              connect: {
-                id: churchId
-              }
-            }
-          }
-        })
-      }
-
-      async findAllAnnotations(churchId: string): Promise<ChurchAnnotation[]> {
-        const annotations = await this.prisma.churchAnnotation.findMany({
-          where: {
-            churchId
-          }
-        })
-        return annotations
-      }
-
-      async findAnnotation(annotationId: string): Promise<ChurchAnnotation> {
-
-        const annotation = await this.prisma.churchAnnotation.findUnique({
-          where: {
-            id: annotationId
-          }
-        })
-
-        return annotation
-      }
-
-      async updateAnnotation(annotationId: string, data: UpdateChurchAnnotationDTO): Promise<void> {
-
-        const updateAnnotation = await this.prisma.churchAnnotation.update({
-          where: {
-            id: annotationId
-          },
-          data
-        })
-      }
-
-      async deleteAnnotation(annotationId: string): Promise<void> {
-        const deleteAnnotation = await this.prisma.churchAnnotation.delete({
-          where: {
-            id: annotationId
-          }
-        })
       }
 
 
