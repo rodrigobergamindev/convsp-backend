@@ -151,7 +151,7 @@ export class WorkerController {
                await this.workerService.updateAnnotationForWorker(idAnnotation, data)
         }
     
-    @Delete(':idAnnotation')
+    @Delete('annotations/:idAnnotation')
     @UsePipes(ValidationPipe)
     async deleteAnnotationForWorker(
           @Param('idAnnotation', WorkerAnnotationValidationExist) idAnnotation: string

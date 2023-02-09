@@ -59,7 +59,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/workers/id/63d85e2152c10acffa22c3f6",
+							"raw": "{{host}}/api/workers/id/63e53f101c33ea0e065cc35d",
 							"host": [
 								"{{host}}"
 							],
@@ -67,7 +67,7 @@
 								"api",
 								"workers",
 								"id",
-								"63d85e2152c10acffa22c3f6"
+								"63e53f101c33ea0e065cc35d"
 							]
 						}
 					},
@@ -114,6 +114,26 @@
 					"response": []
 				},
 				{
+					"name": "findByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/workers/name/VI",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"name",
+								"VI"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "filesUpload",
 					"request": {
 						"method": "POST",
@@ -134,14 +154,14 @@
 							]
 						},
 						"url": {
-							"raw": "{{host}}/api/workers/63d96242300dd8d9e3ab17c3/fileUpload",
+							"raw": "{{host}}/api/workers/63e53f101c33ea0e065cc35d/fileUpload",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"workers",
-								"63d96242300dd8d9e3ab17c3",
+								"63e53f101c33ea0e065cc35d",
 								"fileUpload"
 							]
 						}
@@ -155,7 +175,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "[\r\n    \"0888ccaa-fc73-4adb-b52a-445f01e8e14a-1675175824044.pdf\"\r\n]\r\n",
+							"raw": "[\r\n    \"b73d31dc-d698-47f0-a190-ff74d1f9b182-1672690126473.pdf\",\r\n    \"71c0fcba-c2c7-48e4-bb01-b31266609844-1675175824044.pdf\",\r\n    \"6e9b9c9a-a378-4c6b-8093-22623b77296a-1675175752526.pdf\"\r\n]\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -163,34 +183,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/workers/63d96242300dd8d9e3ab17c3/deleteFiles",
+							"raw": "{{host}}/api/workers/63e53f101c33ea0e065cc35d/deleteFiles",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"workers",
-								"63d96242300dd8d9e3ab17c3",
+								"63e53f101c33ea0e065cc35d",
 								"deleteFiles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "payment",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/workers/payment",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"workers",
-								"payment"
 							]
 						}
 					},
@@ -241,7 +242,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\":\"Antônio Vieira\",\r\n    \"code\":\"1234\",\r\n    \"status\":\"ATIVO\",\r\n    \"role\":\"PRESBITERO\",\r\n    \"rg\":\"39383839-2\",\r\n    \"cpf\":\"392.232.222-01\",\r\n    \"birth\": \"2023-01-30T23:10:50Z\",\r\n    \"consagration\":\"2023-01-30T23:10:50Z\",\r\n    \"phoneNumber\":\"11959943034\",\r\n    \"email\":\"rb.bergamin@gmail.com\",\r\n    \"photo\":\"https://aws.s3.storage/1234/photo\",\r\n    \"address\": {\r\n        \"type\":\"Residencial\",\r\n        \"place\": \"Rua Itaperuã\",\r\n        \"number\": \"1038\",\r\n        \"complement\":null,\r\n        \"district\": \"Vila Taquari\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"08230-020\"\r\n    }\r\n}",
+							"raw": "{\r\n    \"name\":\"ANTÔNIO VIEIRA\",\r\n    \"code\":\"1234\",\r\n    \"status\":\"ATIVO\",\r\n    \"role\":\"EVANGELISTA\",\r\n    \"rg\":\"39383839-2\",\r\n    \"cpf\":\"392.232.222-01\",\r\n    \"birth\": \"2023-01-30T23:10:50Z\",\r\n    \"consagration\":\"2023-01-30T23:10:50Z\",\r\n    \"phoneNumber\":\"11959943034\",\r\n    \"email\":\"rb.bergamin@gmail.com\",\r\n    \"photo\":\"https://aws.s3.storage/1234/photo\",\r\n    \"address\": {\r\n        \"type\":\"Residencial\",\r\n        \"place\": \"Rua Itaperuã\",\r\n        \"number\": \"1038\",\r\n        \"complement\":null,\r\n        \"district\": \"Vila Taquari\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"08230-020\"\r\n    }\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -249,14 +250,112 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/workers/63e28e6794c535d533207487",
+							"raw": "{{host}}/api/workers/63e53f101c33ea0e065cc35d",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"workers",
-								"63e28e6794c535d533207487"
+								"63e53f101c33ea0e065cc35d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "connect worker to church",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/workers/63e53f101c33ea0e065cc35d/63e542cad77840cd7af0713c",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"63e53f101c33ea0e065cc35d",
+								"63e542cad77840cd7af0713c"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create worker annotation",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"DISCIPLINA\",\r\n    \"content\": \"Conforme discutido em reunião, obreiro foi disciplinado no dia 11/01/2019\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/workers/annotations/63e53f101c33ea0e065cc35d",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"annotations",
+								"63e53f101c33ea0e065cc35d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update annotation",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"DISCIPLINA\",\r\n    \"content\": \"Conforme discutido em reunião, obreiro foi disciplinado no dia 11/01/2020\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/api/workers/annotations/63e5456b8cf0e6a948e9b376",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"annotations",
+								"63e5456b8cf0e6a948e9b376"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteAnnotation",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/workers/annotations/63e5456b8cf0e6a948e9b376",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"workers",
+								"annotations",
+								"63e5456b8cf0e6a948e9b376"
 							]
 						}
 					},
@@ -268,7 +367,7 @@
 			"name": "church",
 			"item": [
 				{
-					"name": "create",
+					"name": "createChurch",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -295,13 +394,13 @@
 					"response": []
 				},
 				{
-					"name": "update",
+					"name": "updateChurch",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"code\": \"4321\",\r\n    \"situacao\":\"ATIVA\",\r\n    \"name\":\"OBPC - VILA LEOPOLDINA - SÃO PAULO\",\r\n    \"cnpj\":\"53.245.606-0001/01\",\r\n    \"templo\":\"PROPRIO\",\r\n    \"membros\":450,\r\n    \"address\": {\r\n        \"type\":\"Comercial\",\r\n        \"place\": \"Avenida Brasil\",\r\n        \"number\": \"1225\",\r\n        \"complement\": null,\r\n        \"district\": \"Vila Leopoldina\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"09251-010\"\r\n    },\r\n    \"phoneNumber\":\"1195994-3034\",\r\n    \"email\":\"rb.bergamin@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"code\": \"4322\",\r\n    \"situacao\":\"ATIVA\",\r\n    \"name\":\"OBPC - VILA LEOPOLDINA - SÃO PAULO\",\r\n    \"cnpj\":\"53.245.606-0001/01\",\r\n    \"templo\":\"PROPRIO\",\r\n    \"membros\":450,\r\n    \"address\": {\r\n        \"type\":\"Comercial\",\r\n        \"place\": \"Avenida Brasil\",\r\n        \"number\": \"1225\",\r\n        \"complement\": null,\r\n        \"district\": \"Vila Leopoldina\",\r\n        \"city\": \"São Paulo\",\r\n        \"state\": \"São Paulo\",\r\n        \"zip_code\":\"09251-010\"\r\n    },\r\n    \"phoneNumber\":\"1195994-3034\",\r\n    \"email\":\"rb.bergamin@gmail.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -309,14 +408,14 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/church/63e280b1a28005602bb3e1dc",
+							"raw": "{{host}}/api/church/63e542cad77840cd7af0713c",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"church",
-								"63e280b1a28005602bb3e1dc"
+								"63e542cad77840cd7af0713c"
 							]
 						}
 					},
@@ -328,7 +427,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/church/code/4321",
+							"raw": "{{host}}/api/church/code/4322",
 							"host": [
 								"{{host}}"
 							],
@@ -336,7 +435,7 @@
 								"api",
 								"church",
 								"code",
-								"4321"
+								"4322"
 							]
 						}
 					},
@@ -364,19 +463,19 @@
 				{
 					"name": "createSuperintendenceChurch",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/church/63e280b1a28005602bb3e1dc/superintendence/63e3f1bd339417176a93d4ab",
+							"raw": "{{host}}/api/church/superintendence/63e542cad77840cd7af0713c/63e54baf0cafc9615e5abbd5",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"church",
-								"63e280b1a28005602bb3e1dc",
 								"superintendence",
-								"63e3f1bd339417176a93d4ab"
+								"63e542cad77840cd7af0713c",
+								"63e54baf0cafc9615e5abbd5"
 							]
 						}
 					},
@@ -388,15 +487,15 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/api/church/63e280b1a28005602bb3e1dc/superintendence",
+							"raw": "{{host}}/api/church/superintendence/63e542cad77840cd7af0713c",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"church",
-								"63e280b1a28005602bb3e1dc",
-								"superintendence"
+								"superintendence",
+								"63e542cad77840cd7af0713c"
 							]
 						}
 					},
@@ -442,15 +541,15 @@
 							}
 						},
 						"url": {
-							"raw": "{{host}}/api/superintendence/63e280b1a28005602bb3e1dc/63e28e6794c535d533207487",
+							"raw": "{{host}}/api/superintendence/63e542cad77840cd7af0713c/63e53f101c33ea0e065cc35d",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"api",
 								"superintendence",
-								"63e280b1a28005602bb3e1dc",
-								"63e28e6794c535d533207487"
+								"63e542cad77840cd7af0713c",
+								"63e53f101c33ea0e065cc35d"
 							]
 						}
 					},
