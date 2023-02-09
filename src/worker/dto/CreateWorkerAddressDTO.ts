@@ -8,9 +8,6 @@ import { IsNotEmpty, IsOptional} from 'class-validator'
 export class CreateWorkerAddressDTO implements Prisma.WorkerAddressCreateInput {
 
   @IsNotEmpty()
-  readonly id: string;
-
-  @IsNotEmpty()
   readonly type: string;
 
   @IsNotEmpty()

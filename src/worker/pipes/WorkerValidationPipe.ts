@@ -43,8 +43,11 @@ export class WorkerValidationAlreadyExistPipe implements PipeTransform {
 }
 
 
+
+/*ANNOTATIONS*/
+
 @Injectable()
-export class WorkerValidationChurchExist implements PipeTransform {
+export class WorkerAnnotationValidationExist implements PipeTransform {
 
     constructor(private readonly workerService: WorkerService){}
 
@@ -54,8 +57,8 @@ export class WorkerValidationChurchExist implements PipeTransform {
             throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
         }
 
-        const churchExist = await this.workerService.findChurch(value)
-        if(!churchExist) throw new NotFoundException({statusCode: 400, message: "Igreja não encontrada"})
+        const churchExist = await this.workerService.findAnnotationById(value)
+        if(!churchExist) throw new NotFoundException({statusCode: 400, message: "Anotação não encontrada"})
         
         return value
 

@@ -31,7 +31,7 @@ model Worker {
   president Board[] @relation("President")
   leader Board[] @relation("Leader")
   
-  superintendence Superintendence[]
+  superintendence Superintendence[] @relation("Superintendent")
 
   annotations WorkerAnnotation[]
  
@@ -120,7 +120,7 @@ model Superintendence {
   matriz Church? @relation(name:"MatrizSuperintendence", fields:[matrizId], references: [id])
 
   superintendentId String? @db.ObjectId
-  superintendent Worker? @relation(fields: [superintendentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  superintendent Worker? @relation(name: "Superintendent", fields: [superintendentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   region String
 }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Church, Document, Worker, WorkerAddress } from '@prisma/client';
+import { Church, Document, Worker, WorkerAddress, WorkerAnnotation } from '@prisma/client';
 import { PrismaService } from 'src/prisma/service/prisma.service';
 import { CreateWorkerAddressDTO } from '../dto/CreateWorkerAddressDTO';
 import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
@@ -8,6 +8,8 @@ import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { ConfigService } from "@nestjs/config";
 import { S3 } from "aws-sdk";
 import {v4 as uuid} from 'uuid'
+import { CreateWorkerAnnotationDTO } from '../dto/CreateWorkerAnnotationDTO';
+import { UpdateWorkerAnnotationDTO } from '../dto/UpdateWorkerAnnotationDTO';
 const mercadopago = require('mercadopago')
 
 
@@ -208,20 +210,100 @@ export class WorkerService {
 
     /** WORKER ADDRESS */
 
+    
 
 
-    /**WORKER CHURCH */
-
-    async findChurch(churchId: string): Promise<Church>{
-      const workerChurch = this.prisma.church.findUnique({
+    async updateChurchForWorker(id: string, churchId: string): Promise<void> {
+        
+      const updateChurchForWorker = await this.prisma.worker.update({
         where: {
-          id: churchId
+          id
+        }, 
+        data: {
+          church: {
+            connect: {
+              id: churchId
+            }
+          }
+        }
+      })
+    }
+
+
+    /*WORKER ANNOTATION*/
+
+    async createAnnotationForWorker(workerId: string, data: CreateWorkerAnnotationDTO): Promise<void> {
+        
+      const updateAnnotationForWorker = await this.prisma.workerAnnotation.create({
+        data: {
+         ...data,
+         worker: {
+          connect: {
+            id: workerId
+          }
+         }
+        }
+      })
+    }
+
+    async updateAnnotationForWorker(idAnnotation: string, data: UpdateWorkerAnnotationDTO): Promise<void> {
+        
+      const updateAnnotationForWorker = await this.prisma.workerAnnotation.update({
+        where: {
+          id: idAnnotation
+        },
+        data: {
+          ...data
+        }
+      })
+    }
+
+    async findAnnotationById(idAnnotation: string): Promise<WorkerAnnotation> {
+        
+      const workerAnnotation = await this.prisma.workerAnnotation.findUnique({
+        where: {
+          id: idAnnotation
         }
       })
 
-      return workerChurch
+      return workerAnnotation
     }
-    
+
+    async deleteAnnotationForWorker(idAnnotation: string): Promise<void> {
+        
+      const workerAnnotation = await this.prisma.workerAnnotation.delete({
+        where: {
+          id: idAnnotation
+        }
+      })
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         /**
 
