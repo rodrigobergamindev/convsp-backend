@@ -337,6 +337,47 @@ export class ChurchService {
         return board
       }
 
+      async deleteBoard(boardId: string): Promise<void> {
+        const deleteBoard = await this.prisma.board.delete({
+          where: {
+            id: boardId
+          }
+        })
+      }
+
+
+      /**HEADQUARTER */
+
+      async updateHeadquarterChurch(churchId: string, headquarterId: string): Promise<void> {
+
+        const headquarter = await this.prisma.church.update({
+          where: {
+            id: churchId
+          },
+          data: {
+            headquarter: {
+              connect: {
+                id: headquarterId
+              }
+            }
+          }
+        })
+      }
+
+      async deleteHeadquarterChurch(churchId: string): Promise<void> {
+
+        const deleteHeadquarter = await this.prisma.church.update({
+          where: {
+            id: churchId
+          },
+          data: {
+            headquarter: {
+              disconnect: true
+            }
+          }
+        })
+      }
+
 
     /**CHURCH ANNOTATION */
 

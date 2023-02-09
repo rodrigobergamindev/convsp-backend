@@ -48,7 +48,7 @@ export class ChurchValidationAlreadyExistPipe implements PipeTransform {
 /*ANNOTATIONS*/
 
 @Injectable()
-export class ChurchAnnotationValidationExist implements PipeTransform {
+export class ChurchAnnotationValidationExistPipe implements PipeTransform {
 
     constructor(private readonly churchService: ChurchService){}
 
@@ -60,6 +60,27 @@ export class ChurchAnnotationValidationExist implements PipeTransform {
 
         const annotationExist = await this.churchService.findAnnotationById(value)
         if(!annotationExist) throw new NotFoundException({statusCode: 400, message: "Anotação não encontrada"})
+        
+        return value
+
+    }
+}
+
+/*BOARD*/
+
+@Injectable()
+export class BoardValidationExistPipe implements PipeTransform {
+
+    constructor(private readonly churchService: ChurchService){}
+
+    async transform(value: any, metadata: ArgumentMetadata) {
+    
+        if(!value){
+            throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
+        }
+
+        const boardExist = await this.churchService.findBoardById(value)
+        if(!boardExist) throw new NotFoundException({statusCode: 400, message: "Diretoria não encontrada"})
         
         return value
 

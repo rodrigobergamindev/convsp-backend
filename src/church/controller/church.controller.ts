@@ -3,11 +3,14 @@ import { FilesInterceptor } from '@nestjs/platform-express';
 import { Church } from '@prisma/client';
 import { SuperintendenceValidationExistPipe } from 'src/superintendence/pipes/SuperintendenceValidationPipe';
 import { SuperintendenceService } from 'src/superintendence/service/superintendence.service';
+import { WorkerValidationExistPipe } from 'src/worker/pipes/WorkerValidationPipe';
+import { CreateBoardDTO } from '../dto/CreateBoardDTO';
 import { CreateChurchAnnotationDTO } from '../dto/CreateChurchAnnotationDTO';
 import { CreateChurchDTO } from '../dto/CreateChurchDTO';
+import { UpdateBoardDTO } from '../dto/UpdateBoardDTO';
 import { UpdateChurchAnnotationDTO } from '../dto/UpdateChurchAnnotationDTO';
 import { UpdateChurchDTO } from '../dto/UpdateChurchDTO';
-import { ChurchAnnotationValidationExist, ChurchValidationAlreadyExistPipe, ChurchValidationExistPipe } from '../pipes/ChurchValidationPipe';
+import { BoardValidationExistPipe, ChurchAnnotationValidationExistPipe, ChurchValidationAlreadyExistPipe, ChurchValidationExistPipe } from '../pipes/ChurchValidationPipe';
 import { ChurchService } from '../service/church.service';
 
 @Controller('api/church')
@@ -96,15 +99,15 @@ export class ChurchController {
 
         /*SUPERINTENDENCE*/
 
-        @Get(':churchId/superintendence')
+        @Get('superintendence/:churchId')
         async getSuperintendence(
             @Param('churchId') churchId : string): Promise<Church> {
                 const church = await this.churchService.findSuperintendenceChurch(churchId)
-                if(!church) throw new NotFoundException({statusCode: 404, message: "Church Not Found"})
+                if(!church) throw new NotFoundException({statusCode: 404, message: "Superintendence Not Found"})
                 return church
             }
 
-        @Patch(':churchId/superintendence/:superintendenceId')
+        @Patch('superintendence/:churchId/:superintendenceId')
         @UsePipes(ValidationPipe)
         async updateSuperintendenceChurch(
               @Param('churchId', ChurchValidationExistPipe) churchId: string, 
@@ -113,7 +116,7 @@ export class ChurchController {
                    await this.churchService.updateSuperintendence(churchId, superintendenceId)
             }
 
-        @Delete(':churchId/superintendence')
+        @Delete('superintendence/:churchId')
         @UsePipes(ValidationPipe)
         async deleteSuperintendenceChurch(
             @Param('churchId', ChurchValidationExistPipe) churchId: string,  
@@ -121,7 +124,66 @@ export class ChurchController {
                  await this.churchService.deleteSuperintendenceChurch(churchId)
           }
 
-          
+
+
+          /**BOARD */
+
+
+        @Post('board/:churchId/:presidentId/:leaderId')
+        async createBoard(
+            @Param('churchId', ChurchValidationExistPipe) churchId : string,
+            @Param('presidentId', WorkerValidationExistPipe) presidentId : string,
+            @Param('leaderId', WorkerValidationExistPipe) leaderId : string,
+            @Body() data: CreateBoardDTO
+            ): Promise<void> {
+                const board = await this.churchService.createChurchBoard(churchId, presidentId, leaderId, data)
+               
+            }
+
+        @Put('board/:boardId/:churchId/:presidentId/:leaderId')
+            async updateBoard(
+                @Param('boardId', BoardValidationExistPipe) boardId : string,
+                @Param('churchId', ChurchValidationExistPipe) churchId : string,
+                @Param('presidentId', WorkerValidationExistPipe) presidentId : string,
+                @Param('leaderId', WorkerValidationExistPipe) leaderId : string,
+                @Body() data: UpdateBoardDTO
+                ): Promise<void> {
+                    const board = await this.churchService.updateChurchBoard(boardId, churchId, presidentId, leaderId, data)
+                   
+                }
+
+        @Delete(':boardId/board')
+        @UsePipes(ValidationPipe)
+        async deleteBoardChurch(
+            @Param('boardId', BoardValidationExistPipe) boardId: string,  
+            ): Promise<void>{
+                 await this.churchService.deleteBoard(boardId)
+          }
+
+        /*HEADQUARTER*/
+
+
+
+        @Patch('headquarter/:churchId/:headquarterId')
+        @UsePipes(ValidationPipe)
+        async updateHeadquarterChurch(
+                @Param('churchId', ChurchValidationExistPipe) churchId: string, 
+              @Param('headquarterId', ChurchValidationExistPipe) headquarterId: string,  
+              ): Promise<void>{
+                   await this.churchService.updateHeadquarterChurch(churchId,headquarterId)
+            }
+
+
+        @Delete('headquarter/:churchId')
+        @UsePipes(ValidationPipe)
+        async deleteHeadquarterChurch(
+            @Param('churchId', ChurchValidationExistPipe) churchId: string, 
+          @Param('headquarterId', ChurchValidationExistPipe) headquarterId: string,  
+          ): Promise<void>{
+               await this.churchService.updateHeadquarterChurch(churchId,headquarterId)
+        }
+
+
 
 
         /*CHURCH ANNOTATIONS*/
@@ -140,7 +202,7 @@ export class ChurchController {
     @Put(':idAnnotation')
     @UsePipes(ValidationPipe)
     async updateAnnotationForChurch(
-          @Param('idAnnotation', ChurchAnnotationValidationExist) idAnnotation: string,
+          @Param('idAnnotation', ChurchAnnotationValidationExistPipe) idAnnotation: string,
           @Body() data: UpdateChurchAnnotationDTO
     ): Promise<void>{
                await this.churchService.updateAnnotationForChurch(idAnnotation, data)
@@ -149,7 +211,7 @@ export class ChurchController {
     @Delete(':idAnnotation')
     @UsePipes(ValidationPipe)
     async deleteAnnotationForChurch(
-          @Param('idAnnotation', ChurchAnnotationValidationExist) idAnnotation: string
+          @Param('idAnnotation', ChurchAnnotationValidationExistPipe) idAnnotation: string
     ): Promise<void>{
                await this.churchService.deleteAnnotationForChurch(idAnnotation)
         }
