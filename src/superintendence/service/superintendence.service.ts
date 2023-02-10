@@ -40,7 +40,7 @@ export class SuperintendenceService {
             include: {
               church: true,
               matriz: true,
-              superintendent: true
+              superintendent: true 
           }
           })
         
@@ -111,6 +111,9 @@ export class SuperintendenceService {
 
             }
 
+
+            /**ADD AND REMOVE CHURCHES */
+
         async removeChurch(churchId: string, superintendenceId: string) {
 
           const removeChurch = await this.prisma.superintendence.update({
@@ -144,6 +147,82 @@ export class SuperintendenceService {
           })
 
         }
+
+
+        /**ADD AND REMOVE SUPERINTENDENT */
+        
+        async addSuperintendent(workerId: string, superintendenceId: string) {
+
+          const addSuperintendent = await this.prisma.superintendence.update({
+            where: {
+              id: superintendenceId
+            },
+            data: {
+              superintendent: {
+                connect: {
+                  id: workerId
+                }
+              }
+            }
+          })
+
+        }
+
+        async removeSuperintendent(workerId: string, superintendenceId: string) {
+
+          const removeSuperintendent = await this.prisma.superintendence.update({
+            where: {
+              id: superintendenceId
+            },
+            data: {
+              superintendent: {
+                disconnect: true
+              }
+            }
+          })
+
+        }
+
+
+
+        /**ADD AND REMOVE MATRIZ */
+
+
+        async addMatriz(churchId: string, superintendenceId: string) {
+
+          const addSuperintendent = await this.prisma.superintendence.update({
+            where: {
+              id: superintendenceId
+            },
+            data: {
+              matriz: {
+                connect: {
+                  id: churchId
+                }
+              }
+            }
+          })
+
+        }
+
+        async removeMatriz(churchId: string, superintendenceId: string) {
+
+          const removeSuperintendent = await this.prisma.superintendence.update({
+            where: {
+              id: superintendenceId
+            },
+            data: {
+              matriz: {
+                connect: {
+                  id: churchId
+                }
+              }
+            }
+          })
+
+        }
+
+
 
         }
 

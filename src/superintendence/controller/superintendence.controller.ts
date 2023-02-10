@@ -52,7 +52,7 @@ export class SuperintendenceController {
 
 
 
-        /*REMOVE CHURCH*/
+        /*ADD AND REMOVE CHURCHES TO SUPERINTENDENCE*/
 
         @Patch('church/remove/:superintendenceId/:churchId')
         async removeChurch(
@@ -69,4 +69,42 @@ export class SuperintendenceController {
             ): Promise<void> {
                 await this.superintendenceService.addChurch(churchId, superintendenceId)
             }
+
+
+        /**ADD AND REMOVE SUPERINTENDENT */
+
+        @Patch('superintendent/add/:superintendenceId/:workerId')
+        async addSuperintendent(
+            @Param('workerId', WorkerValidationExistPipe) workerId: string,
+            @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
+            ): Promise<void> {
+                await this.superintendenceService.addSuperintendent(workerId, superintendenceId)
+            }
+        
+        @Patch('superintendent/remove/:superintendenceId/:workerId')
+        async removeSuperintendent(
+                @Param('workerId', WorkerValidationExistPipe) workerId: string,
+                @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
+                ): Promise<void> {
+                    await this.superintendenceService.removeSuperintendent(workerId, superintendenceId)
+                }
+        
+        /**ADD AND REMOVE MATRIZ */
+        
+        @Patch('matriz/add/:superintendenceId/:churchId')
+        async addMatriz(
+            @Param('churchId', ChurchValidationExistPipe) churchId: string,
+            @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
+            ): Promise<void> {
+                await this.superintendenceService.addMatriz(churchId, superintendenceId)
+            }
+        
+        @Patch('matriz/remove/:superintendenceId/:churchId')
+        async removeMatriz(
+                @Param('churchId', ChurchValidationExistPipe) churchId: string,
+                @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
+                ): Promise<void> {
+                    await this.superintendenceService.removeMatriz(churchId, superintendenceId)
+                }
+
 }
