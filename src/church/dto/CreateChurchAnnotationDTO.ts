@@ -10,7 +10,5 @@ export class CreateChurchAnnotationDTO implements Prisma.ChurchAnnotationCreateI
     @IsNotEmpty()
     readonly content: string;
 
-
-    @IsNotEmpty()
     readonly church: Prisma.ChurchCreateNestedOneWithoutAnnotationsInput;
   }

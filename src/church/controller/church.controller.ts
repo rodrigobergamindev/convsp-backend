@@ -152,7 +152,7 @@ export class ChurchController {
                    
                 }
 
-        @Delete(':boardId/board')
+        @Delete('board/:boardId')
         @UsePipes(ValidationPipe)
         async deleteBoardChurch(
             @Param('boardId', BoardValidationExistPipe) boardId: string,  
@@ -177,10 +177,9 @@ export class ChurchController {
         @Delete('headquarter/:churchId')
         @UsePipes(ValidationPipe)
         async deleteHeadquarterChurch(
-            @Param('churchId', ChurchValidationExistPipe) churchId: string, 
-          @Param('headquarterId', ChurchValidationExistPipe) headquarterId: string,  
+            @Param('churchId', ChurchValidationExistPipe) churchId: string
           ): Promise<void>{
-               await this.churchService.updateHeadquarterChurch(churchId,headquarterId)
+               await this.churchService.deleteHeadquarterChurch(churchId)
         }
 
 
@@ -190,7 +189,7 @@ export class ChurchController {
 
 
 
-    @Post(':churchId/annotations')
+    @Post('annotations/:churchId')
     @UsePipes(ValidationPipe)
     async createAnnotationForChurch(
           @Param('churchId', ChurchValidationExistPipe) churchId: string,
@@ -199,7 +198,7 @@ export class ChurchController {
                await this.churchService.createAnnotationForChurch(churchId, data)
         }
 
-    @Put(':idAnnotation')
+    @Put('annotations/:idAnnotation')
     @UsePipes(ValidationPipe)
     async updateAnnotationForChurch(
           @Param('idAnnotation', ChurchAnnotationValidationExistPipe) idAnnotation: string,
@@ -208,7 +207,7 @@ export class ChurchController {
                await this.churchService.updateAnnotationForChurch(idAnnotation, data)
         }
     
-    @Delete(':idAnnotation')
+    @Delete('annotations/:idAnnotation')
     @UsePipes(ValidationPipe)
     async deleteAnnotationForChurch(
           @Param('idAnnotation', ChurchAnnotationValidationExistPipe) idAnnotation: string

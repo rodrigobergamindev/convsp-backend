@@ -15,4 +15,4 @@ export class CreateBoardDTO implements Prisma.BoardCreateInput {
 
    @IsNotEmpty()
    readonly leader: Prisma.WorkerCreateNestedOneWithoutLeaderInput;
-  }
+  } 

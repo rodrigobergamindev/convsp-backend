@@ -32,11 +32,21 @@ export class ChurchService {
         include: {
           address: true,
           annotations: true,
-          board: true,
+          board: {
+            include: {
+              leader: true,
+              president: true
+            }
+          },
           congregations: true,
           document: true,
           headquarter: true,
-          superintendence: true,
+          superintendence: {
+            include: {
+              superintendent: true,
+              matriz: true
+            }
+          },
           workers: true,
           matriz: true
         }
@@ -68,11 +78,21 @@ export class ChurchService {
         include: {
           address: true,
           annotations: true,
-          board: true,
+          board: {
+            include: {
+              leader: true,
+              president: true
+            }
+          },
           congregations: true,
           document: true,
           headquarter: true,
-          superintendence: true,
+          superintendence: {
+            include: {
+              superintendent: true,
+              matriz: true
+            }
+          },
           workers: true,
           matriz: true
         }

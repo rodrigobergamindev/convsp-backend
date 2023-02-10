@@ -1,13 +1,166 @@
 {
 	"info": {
-		"_postman_id": "1e9fb441-66c9-4beb-8cd0-71bb24c2f6e3",
+		"_postman_id": "2c6605ca-a649-44a4-88de-8d2b93bf4e2f",
 		"name": "convsp-backend",
-		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7336078"
 	},
 	"item": [
 		{
 			"name": "worker",
 			"item": [
+				{
+					"name": "annotations",
+					"item": [
+						{
+							"name": "create worker annotation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"DISCIPLINA\",\r\n    \"content\": \"Conforme discutido em reunião, obreiro foi disciplinado no dia 11/01/2019\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/workers/annotations/63e53f101c33ea0e065cc35d",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"workers",
+										"annotations",
+										"63e53f101c33ea0e065cc35d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "update annotation",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"DISCIPLINA\",\r\n    \"content\": \"Conforme discutido em reunião, obreiro foi disciplinado no dia 11/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/workers/annotations/63e5456b8cf0e6a948e9b376",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"workers",
+										"annotations",
+										"63e5456b8cf0e6a948e9b376"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteAnnotation",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/workers/annotations/63e5456b8cf0e6a948e9b376",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"workers",
+										"annotations",
+										"63e5456b8cf0e6a948e9b376"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "files",
+					"item": [
+						{
+							"name": "filesUpload",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "files",
+											"type": "file",
+											"src": [
+												"/C:/Users/convs/Downloads/1675175824044.pdf",
+												"/C:/Users/convs/Downloads/1675175752526.pdf",
+												"/C:/Users/convs/Downloads/1672690126473.pdf",
+												"/C:/Users/convs/Downloads/passo-1.png"
+											]
+										}
+									]
+								},
+								"url": {
+									"raw": "{{host}}/api/workers/63e53f101c33ea0e065cc35d/fileUpload",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"workers",
+										"63e53f101c33ea0e065cc35d",
+										"fileUpload"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteFiles",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    \"b73d31dc-d698-47f0-a190-ff74d1f9b182-1672690126473.pdf\",\r\n    \"71c0fcba-c2c7-48e4-bb01-b31266609844-1675175824044.pdf\",\r\n    \"6e9b9c9a-a378-4c6b-8093-22623b77296a-1675175752526.pdf\"\r\n]\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/workers/63e53f101c33ea0e065cc35d/deleteFiles",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"workers",
+										"63e53f101c33ea0e065cc35d",
+										"deleteFiles"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
 				{
 					"name": "create",
 					"request": {
@@ -134,70 +287,6 @@
 					"response": []
 				},
 				{
-					"name": "filesUpload",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "formdata",
-							"formdata": [
-								{
-									"key": "files",
-									"type": "file",
-									"src": [
-										"/C:/Users/convs/Downloads/1675175824044.pdf",
-										"/C:/Users/convs/Downloads/1675175752526.pdf",
-										"/C:/Users/convs/Downloads/1672690126473.pdf",
-										"/C:/Users/convs/Downloads/passo-1.png"
-									]
-								}
-							]
-						},
-						"url": {
-							"raw": "{{host}}/api/workers/63e53f101c33ea0e065cc35d/fileUpload",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"workers",
-								"63e53f101c33ea0e065cc35d",
-								"fileUpload"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteFiles",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "[\r\n    \"b73d31dc-d698-47f0-a190-ff74d1f9b182-1672690126473.pdf\",\r\n    \"71c0fcba-c2c7-48e4-bb01-b31266609844-1675175824044.pdf\",\r\n    \"6e9b9c9a-a378-4c6b-8093-22623b77296a-1675175752526.pdf\"\r\n]\r\n",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/workers/63e53f101c33ea0e065cc35d/deleteFiles",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"workers",
-								"63e53f101c33ea0e065cc35d",
-								"deleteFiles"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "generateCode",
 					"request": {
 						"method": "GET",
@@ -282,90 +371,295 @@
 						}
 					},
 					"response": []
-				},
-				{
-					"name": "create worker annotation",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\":\"DISCIPLINA\",\r\n    \"content\": \"Conforme discutido em reunião, obreiro foi disciplinado no dia 11/01/2019\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/workers/annotations/63e53f101c33ea0e065cc35d",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"workers",
-								"annotations",
-								"63e53f101c33ea0e065cc35d"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "update annotation",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"title\":\"DISCIPLINA\",\r\n    \"content\": \"Conforme discutido em reunião, obreiro foi disciplinado no dia 11/01/2020\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{host}}/api/workers/annotations/63e5456b8cf0e6a948e9b376",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"workers",
-								"annotations",
-								"63e5456b8cf0e6a948e9b376"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteAnnotation",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/workers/annotations/63e5456b8cf0e6a948e9b376",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"workers",
-								"annotations",
-								"63e5456b8cf0e6a948e9b376"
-							]
-						}
-					},
-					"response": []
 				}
 			]
 		},
 		{
 			"name": "church",
 			"item": [
+				{
+					"name": "superintendence",
+					"item": [
+						{
+							"name": "createSuperintendenceChurch",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/church/superintendence/63e542cad77840cd7af0713c/63e54baf0cafc9615e5abbd5",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"superintendence",
+										"63e542cad77840cd7af0713c",
+										"63e54baf0cafc9615e5abbd5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteSuperintendenceChurch",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/church/superintendence/63e542cad77840cd7af0713c",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"superintendence",
+										"63e542cad77840cd7af0713c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "findSuperintendenceChurch",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/church/superintendence/63e542cad77840cd7af0713c",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"superintendence",
+										"63e542cad77840cd7af0713c"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "board",
+					"item": [
+						{
+							"name": "createBoardChurch",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"validity\": \"Indeterminado\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/church/board/63e542cad77840cd7af0713c/63e53f101c33ea0e065cc35d/63e53f101c33ea0e065cc35d",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"board",
+										"63e542cad77840cd7af0713c",
+										"63e53f101c33ea0e065cc35d",
+										"63e53f101c33ea0e065cc35d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateBoard",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"validity\":\"11/12/2021 to 11/12/2024\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/church/board/63e5b83e137669870cd5c072/63e542cad77840cd7af0713c/63e53f101c33ea0e065cc35d/63e53f101c33ea0e065cc35d",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"board",
+										"63e5b83e137669870cd5c072",
+										"63e542cad77840cd7af0713c",
+										"63e53f101c33ea0e065cc35d",
+										"63e53f101c33ea0e065cc35d"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteBoard",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/church/board/63e5b83e137669870cd5c072",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"board",
+										"63e5b83e137669870cd5c072"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "headquarter",
+					"item": [
+						{
+							"name": "createHeadquarter",
+							"request": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/church/headquarter/63e542cad77840cd7af0713c/63e542cad77840cd7af0713c",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"headquarter",
+										"63e542cad77840cd7af0713c",
+										"63e542cad77840cd7af0713c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteHeadquarter",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/church/headquarter/63e542cad77840cd7af0713c",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"headquarter",
+										"63e542cad77840cd7af0713c"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "annotations",
+					"item": [
+						{
+							"name": "createChurchAnnotation",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"DISCIPLINA\",\r\n    \"content\": \"Conforme discutido em reunião, obreiro foi disciplinado no dia 11/01/2019\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/church/annotations/63e542cad77840cd7af0713c",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"annotations",
+										"63e542cad77840cd7af0713c"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "updateChurchAnnotation",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"title\":\"DISCIPLINA\",\r\n    \"content\": \"Conforme discutido em reunião, obreiro foi disciplinado no dia 11/01/2020\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{host}}/api/church/annotations/63e5bd2365aa5b9b6daf9779",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"annotations",
+										"63e5bd2365aa5b9b6daf9779"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "deleteChurchAnnotation",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{host}}/api/church/annotations/63e5bd2365aa5b9b6daf9779",
+									"host": [
+										"{{host}}"
+									],
+									"path": [
+										"api",
+										"church",
+										"annotations",
+										"63e5bd2365aa5b9b6daf9779"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
 				{
 					"name": "createChurch",
 					"request": {
@@ -455,67 +749,6 @@
 								"api",
 								"id",
 								"church"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "createSuperintendenceChurch",
-					"request": {
-						"method": "PATCH",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/church/superintendence/63e542cad77840cd7af0713c/63e54baf0cafc9615e5abbd5",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"church",
-								"superintendence",
-								"63e542cad77840cd7af0713c",
-								"63e54baf0cafc9615e5abbd5"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "deleteSuperintendenceChurch",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/church/superintendence/63e542cad77840cd7af0713c",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"church",
-								"superintendence",
-								"63e542cad77840cd7af0713c"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "findSuperintendenceChurch",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{host}}/api/church/63e280b1a28005602bb3e1dc/superintendence",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"api",
-								"church",
-								"63e280b1a28005602bb3e1dc",
-								"superintendence"
 							]
 						}
 					},

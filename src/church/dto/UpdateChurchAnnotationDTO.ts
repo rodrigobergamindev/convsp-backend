@@ -11,6 +11,6 @@ export class UpdateChurchAnnotationDTO implements Prisma.ChurchAnnotationUpdateI
     readonly content: string;
 
 
-    @IsNotEmpty()
+   
     readonly church: Prisma.ChurchUpdateOneWithoutWorkersNestedInput;
   }
