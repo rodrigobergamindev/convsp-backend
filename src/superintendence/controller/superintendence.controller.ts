@@ -97,7 +97,7 @@ export class SuperintendenceController {
             @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
             ): Promise<void> {
                 await this.superintendenceService.addMatriz(churchId, superintendenceId)
-            }
+            } 
         
         @Patch('matriz/remove/:superintendenceId/:churchId')
         async removeMatriz(
