@@ -1,5 +1,5 @@
-import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, UploadedFile, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Church } from '@prisma/client';
 import { SuperintendenceValidationExistPipe } from 'src/superintendence/pipes/SuperintendenceValidationPipe';
 import { SuperintendenceService } from 'src/superintendence/service/superintendence.service';
@@ -216,4 +216,14 @@ export class ChurchController {
         }
 
 
+    
+    /**IMPORT */
+
+    @Post('import')
+    @UseInterceptors(FileInterceptor('file'))
+        async importData(
+            @UploadedFile() file: Express.Multer.File): Promise<any> {
+               const data = await this.churchService.importData(file);
+                
+        }
 }

@@ -28,6 +28,7 @@
     "aws-sdk": "^2.1305.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
+    "csv-parse": "^5.3.5",
     "mercadopago": "^1.5.14",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",

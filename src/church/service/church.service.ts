@@ -10,7 +10,8 @@ import { UpdateChurchAnnotationDTO } from '../dto/UpdateChurchAnnotationDTO';
 import { CreateSuperintendenceDTO } from '../../superintendence/dto/CreateSuperintendenceDTO';
 import { CreateBoardDTO } from '../dto/CreateBoardDTO';
 import { UpdateBoardDTO } from '../dto/UpdateBoardDTO';
-
+import {Readable} from 'stream'
+import { parse } from 'csv-parse';
 
 @Injectable()
 export class ChurchService {
@@ -222,7 +223,19 @@ export class ChurchService {
           
         }))
       }
+    
+    async importData(file: Express.Multer.File): Promise<void> {
 
+      const {buffer} = file
+
+      const parser = parse({
+        delimiter:';'
+      })
+
+      const readableFile = new Readable()
+      readableFile.push(buffer)
+      readableFile.push(null)
+    }
 
       /**SUPERINTENDENCE */
 
