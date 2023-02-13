@@ -27,8 +27,8 @@ export class CreateChurchDTO implements Prisma.ChurchCreateInput {
     @IsNumber()
     readonly membros?: number;
  
-    @IsNotEmpty()
-    readonly address: Prisma.ChurchAddressCreateNestedOneWithoutChurchInput;
+    @IsOptional()
+    readonly address?: Prisma.ChurchAddressCreateNestedManyWithoutChurchInput;
 
     @IsPhoneNumber('BR')
     readonly phoneNumber?: string;

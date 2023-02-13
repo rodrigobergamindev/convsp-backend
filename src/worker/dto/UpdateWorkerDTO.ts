@@ -45,8 +45,8 @@ export class UpdateWorkerDTO implements Prisma.WorkerUpdateInput {
     @IsEmail()
     readonly email: string;
   
-    @IsNotEmpty()
-    readonly address: Prisma.WorkerAddressUpdateOneWithoutWorkerNestedInput;
+    @IsOptional()
+    readonly address?: Prisma.WorkerAddressUpdateManyWithoutWorkerNestedInput;
 
     @IsOptional()
     readonly church?: Prisma.ChurchUpdateOneWithoutWorkersNestedInput;

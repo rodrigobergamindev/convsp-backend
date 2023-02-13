@@ -24,7 +24,7 @@ model Worker {
   phoneNumber String?
   email String?
   document Document[]
-  address WorkerAddress?
+  address WorkerAddress[]
   church Church? @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   churchId String? @unique @db.ObjectId
 
@@ -34,6 +34,7 @@ model Worker {
   superintendence Superintendence[] @relation("Superintendent")
 
   annotations WorkerAnnotation[]
+  annuities Annuity[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
@@ -70,7 +71,7 @@ model Church  {
   cnpj String?
   templo Templo? @default(PROPRIO)
   membros Int?
-  address ChurchAddress?
+  address ChurchAddress[]
   phoneNumber String?
   email String?
   document ChurchDocument[]
@@ -88,7 +89,7 @@ model Church  {
   headquarterId String? @unique @db.ObjectId
   headquarter   Church?   @relation(name:"Headquarter", fields: [headquarterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   congregations Church[] @relation(name: "Headquarter")
-
+  contribuitions ChurchContribuition[]
   
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
@@ -126,9 +127,8 @@ model Superintendence {
 
 model WorkerAddress {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  type String
+  type String @unique
   place String
-  number String
   complement String?
   district String
   city String
@@ -143,9 +143,8 @@ model WorkerAddress {
 
 model ChurchAddress {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  type String
+  type String @unique
   place String
-  number String
   complement String?
   district String
   city String
@@ -180,6 +179,35 @@ model WorkerAnnotation {
 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+}
+
+model Annuity {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  value Float
+  date DateTime
+  reference String
+  status String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  workerId String @unique @db.ObjectId
+}
+
+model ChurchContribuition {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  type String
+  value Float
+  date DateTime
+  reference String
+  status String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime? @updatedAt
+
+  church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  churchId String @unique @db.ObjectId
 }
 
 enum Status {

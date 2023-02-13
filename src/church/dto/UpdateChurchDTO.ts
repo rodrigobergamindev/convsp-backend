@@ -27,8 +27,8 @@ export class UpdateChurchDTO implements Prisma.ChurchUpdateInput {
     @IsNumber()
     readonly membros?: number;
  
-    @IsNotEmpty()
-    readonly address: Prisma.ChurchAddressCreateNestedOneWithoutChurchInput;
+    @IsOptional()
+    readonly address?: Prisma.ChurchAddressUpdateManyWithoutChurchNestedInput;
 
     @IsPhoneNumber('BR')
     readonly phoneNumber?: string;

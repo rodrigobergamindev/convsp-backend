@@ -44,8 +44,8 @@ export class CreateWorkerDTO implements Prisma.WorkerCreateInput {
   @IsEmail()
   readonly email: string;
 
-  @IsNotEmpty()
-  readonly address: Prisma.WorkerAddressCreateNestedOneWithoutWorkerInput;
+  @IsOptional()
+  readonly address?: Prisma.WorkerAddressCreateNestedManyWithoutWorkerInput;
 
   @IsOptional()
   readonly church?: Prisma.ChurchCreateNestedOneWithoutWorkersInput;

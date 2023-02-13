@@ -10,7 +10,7 @@ import { S3 } from "aws-sdk";
 import {v4 as uuid} from 'uuid'
 import { CreateWorkerAnnotationDTO } from '../dto/CreateWorkerAnnotationDTO';
 import { UpdateWorkerAnnotationDTO } from '../dto/UpdateWorkerAnnotationDTO';
-const mercadopago = require('mercadopago')
+
 
 
 @Injectable()
@@ -113,17 +113,12 @@ export class WorkerService {
             id: id
           },
           data: {
-            ...data,
-            address: {
-              update: {
-                ...data.address
-              }
-            }
+            ...data
           }
         })
         
         
-      } 
+      }
 
     async findAll(): Promise<Worker[]>{
         const workers = await this.prisma.worker.findMany()
