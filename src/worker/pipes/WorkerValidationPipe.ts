@@ -47,7 +47,7 @@ export class WorkerValidationAlreadyExistPipe implements PipeTransform {
 /*ANNOTATIONS*/
 
 @Injectable()
-export class WorkerAnnotationValidationExist implements PipeTransform {
+export class WorkerAnnotationValidationExistPipe implements PipeTransform {
 
     constructor(private readonly workerService: WorkerService){}
 
@@ -65,4 +65,24 @@ export class WorkerAnnotationValidationExist implements PipeTransform {
     }
 }
 
+
+/*ADDRESS*/
+@Injectable()
+export class WorkerAddressValidationExistPipe implements PipeTransform {
+
+    constructor(private readonly workerService: WorkerService){}
+
+    async transform(value: any, metadata: ArgumentMetadata) {
+    
+        if(!value){
+            throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
+        }
+
+        const addressExist = await this.workerService.findWorkerAddress(value)
+        if(!addressExist) throw new NotFoundException({statusCode: 400, message: "Endereço não encontrado"})
+        
+        return value
+
+    }
+}
 

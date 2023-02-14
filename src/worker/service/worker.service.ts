@@ -3,13 +3,13 @@ import { Church, Document, Worker, WorkerAddress, WorkerAnnotation } from '@pris
 import { PrismaService } from 'src/prisma/service/prisma.service';
 import { CreateWorkerAddressDTO } from '../dto/CreateWorkerAddressDTO';
 import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
-import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { ConfigService } from "@nestjs/config";
 import { S3 } from "aws-sdk";
 import {v4 as uuid} from 'uuid'
 import { CreateWorkerAnnotationDTO } from '../dto/CreateWorkerAnnotationDTO';
 import { UpdateWorkerAnnotationDTO } from '../dto/UpdateWorkerAnnotationDTO';
+import { UpdateWorkerAddressDTO } from '../dto/UpdateWorkerAddressDTO';
 
 
 
@@ -19,22 +19,45 @@ export class WorkerService {
     constructor(private readonly prisma: PrismaService, private readonly configService: ConfigService) {}
 
 
+    /*CREATE, UPDATE AND DELETE*/
     async create(data: CreateWorkerDTO) {
 
         const worker = await this.prisma.worker.create({
           data: {
-            ...data,
-            address: {
-              create: {
-                ...data.address as WorkerAddress
-              }
-            }
+            ...data
           }
          })
          
          return worker
          
        }
+
+      async update(id: string, data: UpdateWorkerDTO): Promise<void> {
+     
+        await this.prisma.worker.update({
+          where: {
+            id: id
+          },
+          data: {
+            ...data
+          }
+        })
+        
+        
+      }
+
+      async delete(id: string): Promise<void> {
+      
+        await this.prisma.worker.delete({
+          where: {
+            id
+          }
+        })
+  
+      }
+    
+
+    /*FILE UPLOAD*/
 
     async fileUpload(workerId: string, files: Express.Multer.File[]): Promise<void>{
 
@@ -91,6 +114,8 @@ export class WorkerService {
         
       }))
     }
+
+    /*GENERATE CODE*/
     
     async generateCode(){
 
@@ -106,19 +131,7 @@ export class WorkerService {
     }
 
 
-    async update(id: string, data: UpdateWorkerDTO): Promise<void> {
-     
-        await this.prisma.worker.update({
-          where: {
-            id: id
-          },
-          data: {
-            ...data
-          }
-        })
-        
-        
-      }
+    /*FIND*/
 
     async findAll(): Promise<Worker[]>{
         const workers = await this.prisma.worker.findMany()
@@ -126,16 +139,6 @@ export class WorkerService {
         return workers
         }
 
-    async delete(id: string): Promise<void> {
-      
-          await this.prisma.worker.delete({
-            where: {
-              id
-            }
-          })
-    
-        }
-      
 
     async findById(id: string): Promise<Worker> {
        
@@ -146,7 +149,12 @@ export class WorkerService {
             include: {
               document: true,
               church: true,
-              address: true
+              address: true,
+              annotations: true,
+              annuities: true,
+              leader: true,
+              president: true,
+              superintendence: true
             }
           })
         
@@ -174,7 +182,12 @@ export class WorkerService {
             include: {
               document: true,
               church: true,
-              address: true
+              address: true,
+              annotations: true,
+              annuities: true,
+              leader: true,
+              president: true,
+              superintendence: true
             }
           })
         
@@ -194,9 +207,10 @@ export class WorkerService {
             church: true,
             address: true,
             annotations: true,
+            annuities: true,
             leader: true,
-            superintendence: true,
-            president: true
+            president: true,
+            superintendence: true
           }
         })
 
@@ -206,9 +220,44 @@ export class WorkerService {
 
     /** WORKER ADDRESS */
 
-    
+    async createWorkerAddress(workerId: string, data: CreateWorkerAddressDTO): Promise<void> {
+        
+      const createAddress = await this.prisma.workerAddress.create({
+        data: {
+          ...data,
+          worker: {
+            connect: {
+              id: workerId
+            }
+          }
+        }
+      })
+    }
 
+    async updateWorkerAddress(workerAddressId: string, data: UpdateWorkerAddressDTO): Promise<void> {
+        
+        const updateAddress = await this.prisma.workerAddress.update({
+          where: {
+            id: workerAddressId
+          },
+          data: {
+            ...data
+          }
+        })
+    }
+ 
+    async findWorkerAddress(workerAddressId: string): Promise<WorkerAddress> {
 
+      const workerAddress = await this.prisma.workerAddress.findUnique({
+        where: {
+          id: workerAddressId
+        }
+      })
+
+      return workerAddress
+    }
+
+    /*UPDATE CHURCH FOR WORKER*/
     async updateChurchForWorker(id: string, churchId: string): Promise<void> {
         
       const updateChurchForWorker = await this.prisma.worker.update({

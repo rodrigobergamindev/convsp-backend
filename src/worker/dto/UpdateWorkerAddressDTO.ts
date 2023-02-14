@@ -5,7 +5,7 @@ import {
 import { IsNotEmpty, IsOptional} from 'class-validator'
 
 
-export class CreateWorkerAddressDTO implements Prisma.WorkerAddressCreateInput {
+export class UpdateWorkerAddressDTO implements Prisma.WorkerAddressUpdateInput {
 
   @IsNotEmpty()
   readonly type: string;
@@ -28,7 +28,7 @@ export class CreateWorkerAddressDTO implements Prisma.WorkerAddressCreateInput {
   @IsNotEmpty()
   readonly zip_code: string;
 
-  
-  readonly worker: Prisma.WorkerCreateNestedOneWithoutAddressInput;
+ 
+  readonly worker: Prisma.WorkerUpdateOneRequiredWithoutAddressNestedInput;
 
 }

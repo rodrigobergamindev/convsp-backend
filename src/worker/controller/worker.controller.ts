@@ -2,16 +2,17 @@ import { Controller, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Body, Delete, Get, Param, Patch, Post, Put, Req, UploadedFiles, UsePipes } from '@nestjs/common/decorators';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { ValidationPipe } from '@nestjs/common/pipes';
-import { Document, Worker } from '@prisma/client';
+import { Document, Worker, WorkerAddress } from '@prisma/client';
 import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
-import { UpdateWorkerChurchDTO } from '../dto/UpdateWorkerChurchDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
-import { WorkerAnnotationValidationExist, WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../pipes/WorkerValidationPipe';
+import { WorkerAddressValidationExistPipe, WorkerAnnotationValidationExistPipe, WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../pipes/WorkerValidationPipe';
 import { WorkerService } from '../service/worker.service';
 import { FilesInterceptor } from "@nestjs/platform-express";
 import { Express } from 'express';
 import { ChurchValidationExistPipe } from 'src/church/pipes/ChurchValidationPipe';
 import { CreateWorkerAnnotationDTO } from '../dto/CreateWorkerAnnotationDTO';
+import { CreateWorkerAddressDTO } from '../dto/CreateWorkerAddressDTO';
+import { UpdateWorkerAddressDTO } from '../dto/UpdateWorkerAddressDTO';
 
 
 
@@ -96,8 +97,8 @@ export class WorkerController {
     @Post()
     @UsePipes(ValidationPipe, WorkerValidationAlreadyExistPipe)
         async create(
-            @Body() worker: CreateWorkerDTO): Promise<void>{
-                await this.workerService.create(worker)
+            @Body() data: CreateWorkerDTO): Promise<void>{
+                await this.workerService.create(data)
         }
     
 
@@ -107,8 +108,8 @@ export class WorkerController {
     @UsePipes(ValidationPipe)
     async update(
           @Param('id', WorkerValidationExistPipe) id: string, 
-          @Body() worker: UpdateWorkerDTO): Promise<void>{
-               await this.workerService.update(id, worker)
+          @Body() data: UpdateWorkerDTO): Promise<void>{
+               await this.workerService.update(id, data)
         }
     
     
@@ -145,7 +146,7 @@ export class WorkerController {
     @Put('annotations/:idAnnotation')
     @UsePipes(ValidationPipe)
     async updateAnnotationForWorker(
-          @Param('idAnnotation', WorkerAnnotationValidationExist) idAnnotation: string,
+          @Param('idAnnotation', WorkerAnnotationValidationExistPipe) idAnnotation: string,
           @Body() data: CreateWorkerAnnotationDTO 
     ): Promise<void>{
                await this.workerService.updateAnnotationForWorker(idAnnotation, data)
@@ -154,11 +155,43 @@ export class WorkerController {
     @Delete('annotations/:idAnnotation')
     @UsePipes(ValidationPipe)
     async deleteAnnotationForWorker(
-          @Param('idAnnotation', WorkerAnnotationValidationExist) idAnnotation: string
+          @Param('idAnnotation', WorkerAnnotationValidationExistPipe) idAnnotation: string
     ): Promise<void>{
                await this.workerService.deleteAnnotationForWorker(idAnnotation)
         }
 
+    /*ADDRESS*/
+
+    @Post('address/:workerId')
+    @UsePipes(ValidationPipe)
+    async createAddress(
+          @Param('workerId', WorkerValidationExistPipe) workerId: string,
+          @Body() data: CreateWorkerAddressDTO 
+    ): Promise<void>{
+               await this.workerService.createWorkerAddress(workerId, data)
+        }
+
+
+
+    @Put('address/:workerAddressId/:workerId')
+    @UsePipes(ValidationPipe)
+        async updateAddress(
+              @Param('workerAddressId', WorkerAddressValidationExistPipe) workerAddressId: string,
+              @Param('workerId', WorkerValidationExistPipe) workerId: string,
+              @Body() data: UpdateWorkerAddressDTO 
+        ): Promise<void>{
+                   await this.workerService.updateWorkerAddress(workerAddressId, data)
+            }
+
+    @Get('address/:workerAddressId')
+        async findWorkerAddress(
+            @Param('workerAddressId') workerAddressId: string,
+        ): Promise<WorkerAddress> {
+            
+                const workerAddress = await this.workerService.findWorkerAddress(workerAddressId)
+                if(!workerAddress) throw new NotFoundException({statusCode: 404, message: "Worker Address Not Found"})
+                return workerAddress
+        }   
 
     /*
     @Post('payment')
