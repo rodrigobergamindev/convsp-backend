@@ -235,7 +235,8 @@ export class ChurchService {
       readableFile.push(null)
 
 
-      const data = await readableFile.pipe(parser).on("data", async (row) => {
+     
+     const data = await readableFile.pipe(parser).on("data", async (row) => {
         const [code, name, situacao, cnpj, type,
         place, district, city, state, zip_code, phoneNumber,email,
         templo, membros,superintendence, region,
@@ -246,7 +247,7 @@ export class ChurchService {
 
         const splitDate = created_at.split('/').reverse()
         const convertedDate = new Date(`${splitDate[0]}-${splitDate[1]}-${splitDate[2]}`)
- 
+        
         const importData = await this.prisma.church.create({
           data: {
              code,
@@ -299,7 +300,9 @@ export class ChurchService {
              }
           }
         })
-       
+      
+        
+        
       })
        
     }
