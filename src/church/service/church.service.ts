@@ -13,6 +13,8 @@ import { UpdateBoardDTO } from '../dto/UpdateBoardDTO';
 import {Readable} from 'stream'
 import { parse } from 'csv-parse';
 import { Transform } from 'node:stream'
+import { CreateChurchAddressDTO } from '../dto/CreateChurchAddressDTO';
+import { UpdateChurchAddressDTO } from '../dto/UpdateChurchAddressDTO';
 
 @Injectable()
 export class ChurchService {
@@ -522,6 +524,46 @@ export class ChurchService {
       })
 
 
+    }
+
+
+     /** CHURCH ADDRESS */
+
+     async createChurchAddress(churchId: string, data: CreateChurchAddressDTO): Promise<void> {
+        
+      const createAddress = await this.prisma.churchAddress.create({
+        data: {
+          ...data,
+          church: {
+            connect: {
+              id: churchId
+            }
+          }
+        }
+      })
+    }
+
+    async updateChurchAddress(churchAddressId: string, data: UpdateChurchAddressDTO): Promise<void> {
+        
+        const updateAddress = await this.prisma.churchAddress.update({
+          where: {
+            id: churchAddressId
+          },
+          data: {
+            ...data
+          }
+        })
+    }
+ 
+    async findChurchAddress(churchAddressId: string): Promise<ChurchAddress> {
+
+      const churchAddress = await this.prisma.churchAddress.findUnique({
+        where: {
+          id: churchAddressId
+        }
+      })
+
+      return churchAddress
     }
 
 }

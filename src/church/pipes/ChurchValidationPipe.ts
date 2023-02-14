@@ -86,3 +86,24 @@ export class BoardValidationExistPipe implements PipeTransform {
 
     }
 }
+
+
+/*ADDRESS*/
+@Injectable()
+export class ChurchAddressValidationExistPipe implements PipeTransform {
+
+    constructor(private readonly churchService: ChurchService){}
+
+    async transform(value: any, metadata: ArgumentMetadata) {
+    
+        if(!value){
+            throw new BadRequestException(`O valor do parâmetro ${metadata.data} deve ser informado`)
+        }
+
+        const addressExist = await this.churchService.findChurchAddress(value)
+        if(!addressExist) throw new NotFoundException({statusCode: 400, message: "Endereço não encontrado"})
+        
+        return value
+
+    }
+}

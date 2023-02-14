@@ -1,16 +1,18 @@
 import { Body, Controller, Delete, Get, NotFoundException, Param, Patch, Post, Put, UploadedFile, UploadedFiles, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-import { Church } from '@prisma/client';
+import { Church, ChurchAddress } from '@prisma/client';
 import { SuperintendenceValidationExistPipe } from 'src/superintendence/pipes/SuperintendenceValidationPipe';
 import { SuperintendenceService } from 'src/superintendence/service/superintendence.service';
 import { WorkerValidationExistPipe } from 'src/worker/pipes/WorkerValidationPipe';
 import { CreateBoardDTO } from '../dto/CreateBoardDTO';
+import { CreateChurchAddressDTO } from '../dto/CreateChurchAddressDTO';
 import { CreateChurchAnnotationDTO } from '../dto/CreateChurchAnnotationDTO';
 import { CreateChurchDTO } from '../dto/CreateChurchDTO';
 import { UpdateBoardDTO } from '../dto/UpdateBoardDTO';
+import { UpdateChurchAddressDTO } from '../dto/UpdateChurchAddressDTO';
 import { UpdateChurchAnnotationDTO } from '../dto/UpdateChurchAnnotationDTO';
 import { UpdateChurchDTO } from '../dto/UpdateChurchDTO';
-import { BoardValidationExistPipe, ChurchAnnotationValidationExistPipe, ChurchValidationAlreadyExistPipe, ChurchValidationExistPipe } from '../pipes/ChurchValidationPipe';
+import { BoardValidationExistPipe, ChurchAddressValidationExistPipe, ChurchAnnotationValidationExistPipe, ChurchValidationAlreadyExistPipe, ChurchValidationExistPipe } from '../pipes/ChurchValidationPipe';
 import { ChurchService } from '../service/church.service';
 
 @Controller('api/church')
@@ -226,4 +228,39 @@ export class ChurchController {
                const data = await this.churchService.importData(file);
                 
         }
+
+
+        /*ADDRESS*/
+
+    @Post('address/:churchId')
+    @UsePipes(ValidationPipe)
+    async createAddress(
+          @Param('churchId', ChurchValidationExistPipe) churchId: string,
+          @Body() data: CreateChurchAddressDTO 
+    ): Promise<void>{
+               await this.churchService.createChurchAddress(churchId, data)
+        }
+
+
+
+    @Put('address/:churchAddressId/:churchId')
+    @UsePipes(ValidationPipe)
+        async updateAddress(
+              @Param('churchAddressId', ChurchAddressValidationExistPipe) churchAddressId: string,
+              @Param('churchId', ChurchValidationExistPipe) churchId: string,
+              @Body() data: UpdateChurchAddressDTO 
+        ): Promise<void>{
+                   await this.churchService.updateChurchAddress(churchAddressId, data)
+            }
+
+    @Get('address/:churchAddressId')
+        async findChurchAddress(
+            @Param('churchAddressId') churchAddressId: string,
+        ): Promise<ChurchAddress> {
+            
+                const churchAddress = await this.churchService.findChurchAddress(churchAddressId)
+                if(!churchAddress) throw new NotFoundException({statusCode: 404, message: "Church Address Not Found"})
+                return churchAddress
+        }   
+
 }
