@@ -18,8 +18,8 @@ export class ChurchController {
 
     constructor(private readonly churchService: ChurchService, superintendenceService: SuperintendenceService) {}
 
-    @Post()
-    @UsePipes(ValidationPipe, ChurchValidationAlreadyExistPipe)
+    @Post() 
+    @UsePipes(ValidationPipe)
         async create(
             @Body() church: CreateChurchDTO): Promise<void>{
                 await this.churchService.create(church)

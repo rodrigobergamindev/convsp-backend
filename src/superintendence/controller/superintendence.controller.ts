@@ -1,8 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { Superintendence } from '@prisma/client';
 import { ChurchValidationExistPipe } from 'src/church/pipes/ChurchValidationPipe';
 import { WorkerValidationExistPipe } from 'src/worker/pipes/WorkerValidationPipe';
 import { CreateSuperintendenceDTO } from '../dto/CreateSuperintendenceDTO';
+import { UpdateSuperintendenceDTO } from '../dto/UpdateSuperintendenceDTO';
 import { SuperintendenceValidationAlreadyExistPipe, SuperintendenceValidationExistPipe } from '../pipes/SuperintendenceValidationPipe';
 import { SuperintendenceService } from '../service/superintendence.service';
 
@@ -12,15 +13,25 @@ export class SuperintendenceController {
     constructor(private readonly superintendenceService: SuperintendenceService) {}
 
 
-    @Post(':matrizId/:superintendentId')
+    @Post(':superintendentId')
     @UsePipes(ValidationPipe)
         async create(
-            @Param('matrizId') matrizId: string,
             @Param('superintendentId') superintendentId: string,
             @Body(SuperintendenceValidationAlreadyExistPipe) data: CreateSuperintendenceDTO
             ): Promise<void>{
                 
-                await this.superintendenceService.create(matrizId, superintendentId,data)
+                await this.superintendenceService.create(superintendentId,data)
+        }
+
+    @Put(':superintendenceId/:superintendentId')
+    @UsePipes(ValidationPipe)
+        async update(
+            @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string,
+            @Param('superintendentId', WorkerValidationExistPipe) superintendentId: string,
+            @Body() data: UpdateSuperintendenceDTO
+            ): Promise<void>{
+                
+                await this.superintendenceService.update(superintendenceId, superintendentId, data)
         }
 
         @Get()
@@ -86,25 +97,8 @@ export class SuperintendenceController {
                 @Param('workerId', WorkerValidationExistPipe) workerId: string,
                 @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
                 ): Promise<void> {
-                    await this.superintendenceService.removeSuperintendent(workerId, superintendenceId)
+                    await this.superintendenceService.removeSuperintendent(superintendenceId)
                 }
         
-        /**ADD AND REMOVE MATRIZ */
-        
-        @Patch('matriz/add/:superintendenceId/:churchId')
-        async addMatriz(
-            @Param('churchId', ChurchValidationExistPipe) churchId: string,
-            @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
-            ): Promise<void> {
-                await this.superintendenceService.addMatriz(churchId, superintendenceId)
-            } 
-        
-        @Patch('matriz/remove/:superintendenceId/:churchId')
-        async removeMatriz(
-                @Param('churchId', ChurchValidationExistPipe) churchId: string,
-                @Param('superintendenceId', SuperintendenceValidationExistPipe) superintendenceId: string
-                ): Promise<void> {
-                    await this.superintendenceService.removeMatriz(churchId, superintendenceId)
-                }
 
 }

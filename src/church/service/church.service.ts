@@ -45,12 +45,10 @@ export class ChurchService {
           headquarter: true,
           superintendence: {
             include: {
-              superintendent: true,
-              matriz: true
+              superintendent: true
             }
           },
-          workers: true,
-          matriz: true
+          workers: true
         }
       })
     
@@ -91,12 +89,10 @@ export class ChurchService {
           headquarter: true,
           superintendence: {
             include: {
-              superintendent: true,
-              matriz: true
+              superintendent: true
             }
           },
-          workers: true,
-          matriz: true
+          workers: true
         }
       })
 
@@ -233,7 +229,7 @@ export class ChurchService {
       const readableFile = new Readable()
       readableFile.push(Buffer.from(buffer))
       readableFile.push(null)
-
+      
 
      
      const data = await readableFile.pipe(parser).on("data", async (row) => {
@@ -244,65 +240,64 @@ export class ChurchService {
           district_correspondence, city_correspondence, state_correspondence,
           zip_code_correspondence, content, title, created_at
         ] = row
-
+ 
         const splitDate = created_at.split('/').reverse()
         const convertedDate = new Date(`${splitDate[0]}-${splitDate[1]}-${splitDate[2]}`)
         
-        const importData = await this.prisma.church.create({
-          data: {
-             code,
-             name,
-             situacao,
-             cnpj,
-             phoneNumber,
-             email,
-             templo,
-             membros: parseInt(membros),
-             address: {
-              createMany: {
-                data: [ 
-                  {
-                    type,
-                    place,
-                    district,
-                    city,
-                    state,
-                    zip_code
-                  },
-                  {
-                    type: type_correspondence,
-                    place: place_correspondence,
-                    district: district_correspondence,
-                    city: city_correspondence,
-                    state: state_correspondence,
-                    zip_code: zip_code_correspondence
-                  }
-                ]  
-              }
-             },
-             annotations: {
-              create: {
-                content,
-                title,
-                createdAt: convertedDate
-              }
-             },
-             superintendence: {
-              connectOrCreate: {
-                where: {
-                  name: superintendence
-                },
-                create: {
-                  name: superintendence,
-                  region
+       
+          const importData = await this.prisma.church.create({
+            data: {
+               code,
+               name,
+               situacao,
+               cnpj,
+               phoneNumber,
+               email,
+               templo,
+               membros: parseInt(membros),
+               address: {
+                createMany: {
+                  data: [
+                    {
+                      type,
+                      place,
+                      district,
+                      city,
+                      state,
+                      zip_code
+                    },
+                    {
+                      type: type_correspondence,
+                      place: place_correspondence,
+                      district: district_correspondence,
+                      city: city_correspondence,
+                      state: state_correspondence,
+                      zip_code: zip_code_correspondence
+                    },
+                  ]
                 }
-              }
-             }
-          }
-        })
-      
-        
-        
+               },
+               annotations: {
+                create: {
+                  content,
+                  title,
+                  createdAt: convertedDate
+                }
+               },
+               superintendence: {
+                connectOrCreate: {
+                  where: {
+                    name: superintendence
+                  },
+                  create: {
+                    name: superintendence,
+                    region
+                  }
+                }
+               }
+            }
+          })
+ 
       })
        
     }
@@ -334,8 +329,7 @@ export class ChurchService {
           include: {
             superintendence: {
               include: {
-                superintendent: true,
-                matriz: true
+                superintendent: true
               }
             }
           }
@@ -352,9 +346,6 @@ export class ChurchService {
           },
           data: { 
             superintendence: {
-              disconnect: true
-            },
-            matriz: {
               disconnect: true
             }
           }

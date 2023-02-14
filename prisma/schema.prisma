@@ -26,7 +26,7 @@ model Worker {
   document Document[]
   address WorkerAddress[]
   church Church? @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  churchId String? @unique @db.ObjectId
+  churchId String? @db.ObjectId
 
   president Board[] @relation("President")
   leader Board[] @relation("Leader")
@@ -47,7 +47,7 @@ model Document {
   key String @unique
   url String
   worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  workerId String @unique @db.ObjectId
+  workerId String @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
 }
@@ -57,7 +57,7 @@ model ChurchDocument {
   key String @unique
   url String
   church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  churchId String @unique @db.ObjectId
+  churchId String @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
 }
@@ -78,15 +78,12 @@ model Church  {
   annotations ChurchAnnotation[]
 
   superintendence Superintendence? @relation(name: "ChurchesSuperintendence", fields: [superintendenceId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  superintendenceId String? @unique @db.ObjectId
+  superintendenceId String? @db.ObjectId
 
-  matriz Superintendence? @relation(name:"MatrizSuperintendence") 
-
-  
   workers Worker[]
   board Board?
 
-  headquarterId String? @unique @db.ObjectId
+  headquarterId String? @db.ObjectId
   headquarter   Church?   @relation(name:"Headquarter", fields: [headquarterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   congregations Church[] @relation(name: "Headquarter")
   contribuitions ChurchContribuition[]
@@ -105,10 +102,10 @@ model Board {
   churchId String @unique @db.ObjectId
 
   president Worker @relation(name: "President", fields: [presidentId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  presidentId String @unique @db.ObjectId
+  presidentId String @db.ObjectId
 
   leader Worker @relation(name: "Leader", fields: [leaderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  leaderId String @unique @db.ObjectId
+  leaderId String @db.ObjectId
 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
@@ -120,9 +117,6 @@ model Superintendence {
   name String @unique 
   church Church[] @relation(name:"ChurchesSuperintendence")
 
-  matrizId String? @unique @db.ObjectId
-  matriz Church? @relation(name:"MatrizSuperintendence", fields:[matrizId], references: [id])
-
   superintendentId String? @db.ObjectId
   superintendent Worker? @relation(name: "Superintendent", fields: [superintendentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   region String
@@ -133,7 +127,7 @@ model Superintendence {
 
 model WorkerAddress {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  type String @unique
+  type String 
   place String
   complement String?
   district String
@@ -141,15 +135,17 @@ model WorkerAddress {
   state String
   zip_code String
   worker   Worker   @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  workerId String @unique @db.ObjectId 
+  workerId String @db.ObjectId 
 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+
+   @@unique([type,workerId])
 }
 
 model ChurchAddress {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  type String @unique
+  type String 
   place String
   complement String?
   district String
@@ -157,17 +153,20 @@ model ChurchAddress {
   state String
   zip_code String
   church   Church   @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  churchId String @unique @db.ObjectId 
+  churchId String @db.ObjectId 
 
   createdAt DateTime @default(now())
   updatedAt DateTime? @updatedAt
+
+
+  @@unique([type,churchId])
 }
 
 
 model ChurchAnnotation {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  churchId String @unique @db.ObjectId
+  churchId String @db.ObjectId
   title String
   content String
 
@@ -178,7 +177,7 @@ model ChurchAnnotation {
 model WorkerAnnotation {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  workerId String @unique @db.ObjectId
+  workerId String @db.ObjectId
 
   title String
   content String
@@ -198,7 +197,7 @@ model Annuity {
   updatedAt DateTime? @updatedAt
 
   worker Worker @relation(fields: [workerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  workerId String @unique @db.ObjectId
+  workerId String @db.ObjectId
 }
 
 model ChurchContribuition {
@@ -213,7 +212,7 @@ model ChurchContribuition {
   updatedAt DateTime? @updatedAt
 
   church Church @relation(fields: [churchId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  churchId String @unique @db.ObjectId
+  churchId String @db.ObjectId
 }
 
 enum Status {

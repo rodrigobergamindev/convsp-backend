@@ -22,7 +22,6 @@ export class SuperintendenceService {
             },
             include: {
                 church: true,
-                matriz: true, 
                 superintendent: true
             }
           })
@@ -39,7 +38,6 @@ export class SuperintendenceService {
             },
             include: {
               church: true,
-              matriz: true,
               superintendent: true 
           }
           })
@@ -50,7 +48,7 @@ export class SuperintendenceService {
     
     
     
-        async create(matrizId: string, superintendentId: string, data: CreateSuperintendenceDTO) {
+        async create(superintendentId: string, data: CreateSuperintendenceDTO) {
           
             const createSuperintendence = await this.prisma.superintendence.create({
               data: {
@@ -59,41 +57,21 @@ export class SuperintendenceService {
                   connect: {
                     id: superintendentId
                   }
-                },
-                matriz: {
-                  connect: {
-                    id: matrizId
-                  }
-                },
-                church: {
-                  connect: {
-                    id: matrizId
-                  }
                 }
               }
             })
           }
 
-        async update(superintendenceId: string, superintendentId: string, matrizId: string, data: UpdateSuperintendenceDTO){
+        async update(superintendenceId: string, superintendentId: string, data: UpdateSuperintendenceDTO){
             const updateSuperintendence = await this.prisma.superintendence.update({
                 where: {
                     id: superintendenceId
                 },
                 data: {
                   ...data,
-                  matriz: {
-                    connect: {
-                      id: matrizId
-                    }
-                  },
                   superintendent: {
                     connect: {
                       id: superintendentId
-                    }
-                  },
-                  church: {
-                    connect: {
-                      id: matrizId
                     }
                   }
                 }
@@ -114,7 +92,7 @@ export class SuperintendenceService {
 
             /**ADD AND REMOVE CHURCHES */
 
-        async removeChurch(churchId: string, superintendenceId: string) {
+        async removeChurch(churchId: string, superintendenceId: string): Promise<void> {
 
           const removeChurch = await this.prisma.superintendence.update({
             where: {
@@ -131,7 +109,7 @@ export class SuperintendenceService {
 
         }
 
-        async addChurch(churchId: string, superintendenceId: string) {
+        async addChurch(churchId: string, superintendenceId: string): Promise<void> {
 
           const addChurch = await this.prisma.superintendence.update({
             where: {
@@ -168,7 +146,7 @@ export class SuperintendenceService {
 
         }
 
-        async removeSuperintendent(workerId: string, superintendenceId: string) {
+        async removeSuperintendent(superintendenceId: string) {
 
           const removeSuperintendent = await this.prisma.superintendence.update({
             where: {
@@ -182,46 +160,6 @@ export class SuperintendenceService {
           })
 
         }
-
-
-
-        /**ADD AND REMOVE MATRIZ */
-
-
-        async addMatriz(churchId: string, superintendenceId: string) {
-
-          const addSuperintendent = await this.prisma.superintendence.update({
-            where: {
-              id: superintendenceId
-            },
-            data: {
-              matriz: {
-                connect: {
-                  id: churchId
-                }
-              }
-            }
-          })
-
-        }
-
-        async removeMatriz(churchId: string, superintendenceId: string) {
-
-          const removeSuperintendent = await this.prisma.superintendence.update({
-            where: {
-              id: superintendenceId
-            },
-            data: {
-              matriz: {
-                connect: {
-                  id: churchId
-                }
-              }
-            }
-          })
-
-        }
-
 
 
         }
