@@ -105,15 +105,11 @@ export class ChurchService {
 
       const church = await this.prisma.church.create({
         data: {
-          ...data, 
- 
-          address: {
-            create: {
-              ...data.address as ChurchAddress
-            }
-          }
+          ...data
         }
       })
+
+      
        
           
     }

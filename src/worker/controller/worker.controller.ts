@@ -1,8 +1,8 @@
-import { Controller, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, HttpStatus, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Body, Delete, Get, Param, Patch, Post, Put, Req, UploadedFiles, UsePipes } from '@nestjs/common/decorators';
-import { NotFoundException } from '@nestjs/common/exceptions';
+import { HttpException, NotFoundException } from '@nestjs/common/exceptions';
 import { ValidationPipe } from '@nestjs/common/pipes';
-import { Document, Worker, WorkerAddress } from '@prisma/client';
+import { Document, Prisma, Worker, WorkerAddress } from '@prisma/client';
 import { CreateWorkerDTO } from '../dto/CreateWorkerDTO';
 import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { WorkerAddressValidationExistPipe, WorkerAnnotationValidationExistPipe, WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../pipes/WorkerValidationPipe';
@@ -98,7 +98,10 @@ export class WorkerController {
     @UsePipes(ValidationPipe, WorkerValidationAlreadyExistPipe)
         async create(
             @Body() data: CreateWorkerDTO): Promise<void>{
-                await this.workerService.create(data)
+
+               return await this.workerService.create(data)
+
+               
         }
     
 
