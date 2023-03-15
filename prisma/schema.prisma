@@ -10,6 +10,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Subscription {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  code String @unique
+}
+
 model Worker {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   code String @unique
@@ -83,8 +88,8 @@ model Church  {
   workers Worker[]
   board Board?
 
-  headquarterId String? @db.ObjectId
-  headquarter   Church?   @relation(name:"Headquarter", fields: [headquarterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  headquarterId String @db.ObjectId
+  headquarter   Church   @relation(name:"Headquarter", fields: [headquarterId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   congregations Church[] @relation(name: "Headquarter")
   contribuitions ChurchContribuition[]
   

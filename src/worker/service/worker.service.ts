@@ -10,7 +10,8 @@ import {v4 as uuid} from 'uuid'
 import { CreateWorkerAnnotationDTO } from '../dto/CreateWorkerAnnotationDTO';
 import { UpdateWorkerAnnotationDTO } from '../dto/UpdateWorkerAnnotationDTO';
 import { UpdateWorkerAddressDTO } from '../dto/UpdateWorkerAddressDTO';
-
+import {Request} from 'express'
+import mercadopago from 'mercadopago';
 
 
 @Injectable()
@@ -134,7 +135,8 @@ export class WorkerService {
           }).promise()
   
           if(deleteResult) {
-            await this.prisma.document.delete({
+            
+            const deleteFiles = await this.prisma.document.delete({
               where: {
                 key: file
               }
@@ -147,6 +149,7 @@ export class WorkerService {
       } catch (error) {
 
         if(error instanceof Prisma.PrismaClientKnownRequestError) {
+          
           throw new HttpException(`${error.code}`, HttpStatus.BAD_REQUEST)
         }
       throw new HttpException(`Failed to delete files`, HttpStatus.BAD_REQUEST)
@@ -385,6 +388,7 @@ export class WorkerService {
     /*WORKER ANNOTATION*/
 
     async createAnnotationForWorker(workerId: string, data: CreateWorkerAnnotationDTO): Promise<void> {
+
         
       try {
         const createAnnotationForWorker = await this.prisma.workerAnnotation.create({
@@ -457,55 +461,5 @@ export class WorkerService {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /**
-
-    async payment(){
-      await mercadopago.configure({
-        access_token: this.configService.get('MERCADOPAGO_ACCESS_KEY')
-      })
-
-      const preference = await mercadopago.payment.create({
-        payer: {
-          email: 'rodrigobergamindev@gmail.com',
-          first_name: 'Rodrigo',
-          last_name: 'Silva',
-          identification: {
-            type: 'cpf',
-            number: '45177620840'
-          }
-        },
-        description: 'ANUIDADE MINISTERIAL',
-        transaction_amount: 183.22,
-        payment_method_id: 'bolbradesco',
-        installments: 1
-      })
-
-      return await preference.response
-    }
- */
 
 }

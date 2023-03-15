@@ -1,5 +1,5 @@
 import { Controller, HttpStatus, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { Body, Delete, Get, Param, Patch, Post, Put, Req, UploadedFiles, UsePipes } from '@nestjs/common/decorators';
+import { Body, Delete, Get, Param, Patch, Post, Put, Req, Request, UploadedFiles, UsePipes } from '@nestjs/common/decorators';
 import { HttpException, NotFoundException } from '@nestjs/common/exceptions';
 import { ValidationPipe } from '@nestjs/common/pipes';
 import { Document, Prisma, Worker, WorkerAddress } from '@prisma/client';
@@ -8,7 +8,7 @@ import { UpdateWorkerDTO } from '../dto/UpdateWorkerDTO';
 import { WorkerAddressValidationExistPipe, WorkerAnnotationValidationExistPipe, WorkerValidationAlreadyExistPipe, WorkerValidationExistPipe } from '../pipes/WorkerValidationPipe';
 import { WorkerService } from '../service/worker.service';
 import { FilesInterceptor } from "@nestjs/platform-express";
-import { Express } from 'express';
+import { Express, request, Response } from 'express';
 import { ChurchValidationExistPipe } from 'src/church/pipes/ChurchValidationPipe';
 import { CreateWorkerAnnotationDTO } from '../dto/CreateWorkerAnnotationDTO';
 import { CreateWorkerAddressDTO } from '../dto/CreateWorkerAddressDTO';
@@ -196,11 +196,6 @@ export class WorkerController {
                 return workerAddress
         }   
 
-    /*
-    @Post('payment')
-    async payment(): Promise<any> {
-        return await this.workerService.payment()
-    }
-        */
+       
 }
  

@@ -261,6 +261,7 @@ export class ChurchController {
                 const churchAddress = await this.churchService.findChurchAddress(churchAddressId)
                 if(!churchAddress) throw new NotFoundException({statusCode: 404, message: "Church Address Not Found"})
                 return churchAddress
-        }   
+        }
+        
 
 }
